@@ -17,7 +17,7 @@ import java.util.List;
 public class UserController {
 
     public RestfulResponse<List<User>> findUser(){
-        
+
         return null;
 
     }
