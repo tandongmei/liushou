@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ls.mapper.UserMapper">
+    <select id="findUser" parameterType="com.ls.request.UserQueryRequest" resultMap="java.util.Map">
+        select * from user u
+        where 1 = 1
+        <if test="nickName != null and nickName != ''">
+            and i.nickName LIKE CONCAT('%',CONCAT(#{nickName},'%'))
+        </if>
+        <if test="isLeftChild != null and isLeftChild != ''">
+            and i.isLeftChild = #{isLeftChild}
+        </if>
+        <if test="sort != null and dir != null">
+            ORDER BY i.${sort} ${dir}
+        </if>
+        <if test="pageNo != null and pageSize != null">
+            LIMIT #{pageNo},#{pageSize}
+        </if>
+    </select>
+</mapper>

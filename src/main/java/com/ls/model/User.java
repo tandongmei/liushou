@@ -38,11 +38,11 @@ public class User {
     /**
      *  性别
      * */
-    private String sex;
+    private String gender;
     /**
      *  电话
      * */
-    private String phone;
+    private String tel;
     /**
      *  邮箱
      * */

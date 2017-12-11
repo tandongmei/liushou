@@ -1,4 +1,4 @@
-﻿package com.ls.controller;
+package com.ls.controller;
 
 import com.ls.common.RestfulResponse;
 import com.ls.converter.ConverterUserDTO;
@@ -37,7 +37,7 @@ public class UserController {
 
     @ApiOperation(value = "用户列表")
     @GetMapping(value = "")
-    public RestfulResponse<List<User>> findUser(
+    public RestfulResponse<List<Map<String,Object>>> findUser(
             @ApiParam(name = "filters", value = "查询条件") @RequestParam(value = "filters") String filters,
             @ApiParam(name = "pageNo", value = "起始页") @RequestParam(name = "pageNo", required = false) Integer pageNo,
             @ApiParam(name = "pageSize", value = "每页条数") @RequestParam(name = "pageSize", required = false) Integer pageSize,

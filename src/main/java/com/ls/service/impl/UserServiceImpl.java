@@ -1,6 +1,7 @@
 package com.ls.service.impl;
 
 import com.ls.dao.IUserDao;
+import com.ls.mapper.UserMapper;
 import com.ls.request.UserQueryRequest;
 import com.ls.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,12 @@ public class UserServiceImpl implements IUserService{
 
     @Autowired
     private IUserDao userDao;
+
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
     public List<Map<String, Object>> findUser(UserQueryRequest userQueryRequest) {
-        return null;
+        return userMapper.findUser(userQueryRequest);
     }
 }
