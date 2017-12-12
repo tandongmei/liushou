@@ -1,63 +1,133 @@
 package com.ls.model;
 
-import lombok.Data;
-
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.util.Date;
 
-/**
- * Created by tan.dongmei on 2017/12/1
- */
-// 用户实体类
-@Data
-@Entity
 public class User {
+    private Integer userid;
 
-    @Id
-    @GeneratedValue
-    private Integer userId;
-    /**
-     *  用户昵称
-     * */
-    private String nickName;
-    /**
-     *  用户密码
-     * */
+    private String nickname;
+
     private String password;
-    /**
-     *  用户真实姓名
-     * */
+
     private String name;
-    /**
-     *  年龄
-     * */
-    private int age;
-    /**
-     *  性别
-     * */
+
+    private Integer age;
+
     private String gender;
-    /**
-     *  电话
-     * */
+
     private String tel;
-    /**
-     *  邮箱
-     * */
+
     private String email;
-    /**
-     *  用户头像
-     * */
-    private String headImg;
-    /**
-     *  是否是留守儿童
-     * */
-    private int isLeftChild;
-    /**
-     *  创建时间
-     * */
+
+    private Integer isleftchild;
+
+    private String headimg;
+
     private Date createdTime;
 
+    public User(Integer userid, String nickname, String password, String name, Integer age, String gender, String tel, String email, Integer isleftchild, String headimg, Date createdTime) {
+        this.userid = userid;
+        this.nickname = nickname;
+        this.password = password;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.tel = tel;
+        this.email = email;
+        this.isleftchild = isleftchild;
+        this.headimg = headimg;
+        this.createdTime = createdTime;
+    }
+
+    public User() {
+        super();
+    }
+
+    public Integer getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Integer userid) {
+        this.userid = userid;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : nickname.trim();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender == null ? null : gender.trim();
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel == null ? null : tel.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
+    }
+
+    public Integer getIsleftchild() {
+        return isleftchild;
+    }
+
+    public void setIsleftchild(Integer isleftchild) {
+        this.isleftchild = isleftchild;
+    }
+
+    public String getHeadimg() {
+        return headimg;
+    }
+
+    public void setHeadimg(String headimg) {
+        this.headimg = headimg == null ? null : headimg.trim();
+    }
+
+    public Date getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
+    }
 }
