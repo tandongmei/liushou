@@ -1,7 +1,11 @@
 package com.ls.converter;
 
+import com.ls.dto.UserDTO;
 import com.ls.request.UserQueryRequest;
 import com.alibaba.fastjson.JSON;
+import com.ls.request.UserRequest;
+import com.ls.util.MD5Util;
+import org.springframework.beans.BeanUtils;
 
 /**
  * Created by tan.dongmei on 2017/12/1
@@ -19,4 +23,15 @@ public class ConverterUserDTO extends BaseConverterDTO{
         userQueryRequest.setDir(dir);
         return userQueryRequest;
     }
+
+    public static UserRequest converterUserDTO(UserDTO userDTO){
+        if (userDTO == null) {
+            return null;
+        }
+        UserRequest userRequest = new UserRequest();
+        BeanUtils.copyProperties(userDTO, userRequest);
+        userRequest.setPassword(MD5Util.md5Hex(userDTO.getPassword()));
+        return userRequest;
+    }
+
 }

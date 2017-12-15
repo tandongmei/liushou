@@ -1,9 +1,11 @@
 package com.ls.service.impl;
 
-import com.ls.dao.IUserDao;
 import com.ls.mapper.UserMapper;
+import com.ls.model.User;
 import com.ls.request.UserQueryRequest;
+import com.ls.request.UserRequest;
 import com.ls.service.IUserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +19,23 @@ import java.util.Map;
 public class UserServiceImpl implements IUserService{
 
     @Autowired
-    private IUserDao userDao;
-
-    @Autowired
     private UserMapper userMapper;
 
+
     @Override
-    public List<Map<String, Object>> findUser(UserQueryRequest userQueryRequest) {
-        return userMapper.findUser(userQueryRequest);
-//        return null;
+    public List<Map<String, Object>> findUserList(UserQueryRequest userQueryRequest) {
+        return userMapper.findUserList(userQueryRequest);
     }
+
+    @Override
+    public void createUser(UserRequest userRequest) {
+        User user = new User();
+        bindUser(userRequest,user);
+        userMapper.insertSelective(user);
+    }
+
+    private void bindUser(UserRequest userRequest,User user){
+        BeanUtils.copyProperties(userRequest,user);
+    }
+
 }

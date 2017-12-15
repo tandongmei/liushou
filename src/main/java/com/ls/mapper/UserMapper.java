@@ -19,5 +19,5 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    List<Map<String,Object>> findUser(UserQueryRequest userQueryRequest);
+    List<Map<String,Object>> findUserList(UserQueryRequest userQueryRequest);
 }

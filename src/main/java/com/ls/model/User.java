@@ -25,7 +25,9 @@ public class User {
 
     private Date createdTime;
 
-    public User(Integer userid, String nickname, String password, String name, Integer age, String gender, String tel, String email, Integer isleftchild, String headimg, Date createdTime) {
+    private String payno;
+
+    public User(Integer userid, String nickname, String password, String name, Integer age, String gender, String tel, String email, Integer isleftchild, String headimg, Date createdTime, String payno) {
         this.userid = userid;
         this.nickname = nickname;
         this.password = password;
@@ -37,6 +39,7 @@ public class User {
         this.isleftchild = isleftchild;
         this.headimg = headimg;
         this.createdTime = createdTime;
+        this.payno = payno;
     }
 
     public User() {
@@ -129,5 +132,13 @@ public class User {
 
     public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public String getPayno() {
+        return payno;
+    }
+
+    public void setPayno(String payno) {
+        this.payno = payno == null ? null : payno.trim();
     }
 }
