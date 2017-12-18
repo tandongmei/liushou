@@ -29,7 +29,6 @@ import java.util.Map;
 @RequestMapping(value = "/api/user")
 public class UserController {
 
-
     private static final Logger logger = LogManager.getLogger(UserController.class);
 
     @Autowired
