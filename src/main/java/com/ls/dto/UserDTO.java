@@ -16,17 +16,17 @@ import javax.validation.constraints.Size;
 public class UserDTO {
 
     @ApiModelProperty(value = "用户昵称", required = true)
-    @Size(max = 20,message = "长度不能超过20")
+    @Size(max = 20,message = "用户昵称长度不能超过20")
     @NotNull(message = "用户昵称为空")
     private String nickname;
 
     @ApiModelProperty(value = "用户密码", required = true)
-    @Size(max = 20,message = "长度不能超过20")
+    @Size(max = 20,message = "用户密码长度不能超过20")
     @NotNull(message = "用户密码为空")
     private String password;
 
     @ApiModelProperty(value = "真实姓名", required = true)
-    @NotNull(message = "姓名为空")
+    @NotNull(message = "真实姓名为空")
     private String name;
 
     @ApiModelProperty(value = "年龄", required = true)
@@ -44,7 +44,7 @@ public class UserDTO {
     private String email;
 
     @ApiModelProperty(value = "是否是留守儿童", required = true)
-    @NotNull(message = "必填")
+    @NotNull(message = "是否是留守儿童必填")
     private Integer isleftchild;
 
     @ApiModelProperty(value = "头像", required = true)

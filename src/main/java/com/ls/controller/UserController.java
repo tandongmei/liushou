@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -47,10 +48,6 @@ public class UserController {
             UserQueryRequest userQueryRequest = ConverterUserDTO.converterUserDTO(pageNo,pageSize,sort,dir,filters);
             List<Map<String,Object>> userList = userService.findUserList(userQueryRequest);
             restfulResponse.setData(userList);
-        }catch (ServiceException se){
-            restfulResponse.setCode(ResCodeEnum.USER_EMPTY.getCode());
-            logger.catching(se);
-            restfulResponse.setMsg(ResCodeEnum.USER_EMPTY.getMsg());
         }catch (Exception e){
             restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
             restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
@@ -60,12 +57,13 @@ public class UserController {
     }
     @ApiOperation(value = "用户注册")
     @PostMapping(value = "")
-    public RestfulResponse createAdministrator(@RequestBody UserDTO userDTO, BindingResult result) {
+    public RestfulResponse createAdministrator(@RequestBody @Valid UserDTO userDTO, BindingResult result) {
         RestfulResponse restfulResponse = new RestfulResponse();
         try {
             if (result.hasErrors()) {
                 List<ObjectError> allErrors = result.getAllErrors();
-                restfulResponse.setCode(Integer.valueOf(allErrors.get(0).getDefaultMessage()));
+                restfulResponse.setCode(-1);
+                restfulResponse.setMsg(allErrors.get(0).getDefaultMessage());
                 return restfulResponse;
             }
             UserRequest userRequest = ConverterUserDTO.converterUserDTO(userDTO);

@@ -3,26 +3,26 @@
 <mapper namespace="com.ls.mapper.HostMapper" >
   <resultMap id="BaseResultMap" type="com.ls.model.Host" >
     <constructor >
-      <idArg column="hostid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <idArg column="hostId" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    hostid, title, created_time
+    hostId, title, created_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from host
-    where hostid = #{hostid,jdbcType=INTEGER}
+    where hostId = #{hostid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from host
-    where hostid = #{hostid,jdbcType=INTEGER}
+    where hostId = #{hostid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.ls.model.Host" >
-    insert into host (hostid, title, created_time
+    insert into host (hostId, title, created_time
       )
     values (#{hostid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}
       )
@@ -31,7 +31,7 @@
     insert into host
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="hostid != null" >
-        hostid,
+        hostId,
       </if>
       <if test="title != null" >
         title,
@@ -62,12 +62,12 @@
         created_time = #{createdTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where hostid = #{hostid,jdbcType=INTEGER}
+    where hostId = #{hostid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ls.model.Host" >
     update host
     set title = #{title,jdbcType=VARCHAR},
       created_time = #{createdTime,jdbcType=TIMESTAMP}
-    where hostid = #{hostid,jdbcType=INTEGER}
+    where hostId = #{hostid,jdbcType=INTEGER}
   </update>
 </mapper>
