@@ -18,7 +18,7 @@ public class UserDTO {
     @ApiModelProperty(value = "用户昵称", required = true)
     @Size(max = 20,message = "用户昵称长度不能超过20")
     @NotNull(message = "用户昵称为空")
-    private String nickname;
+    private String nickName;
 
     @ApiModelProperty(value = "用户密码", required = true)
     @Size(max = 20,message = "用户密码长度不能超过20")
@@ -37,21 +37,23 @@ public class UserDTO {
     @NotNull(message = "性别为空")
     private String gender;
 
-    @ApiModelProperty(value = "电话")
+    @ApiModelProperty(value = "电话", required = true)
+    @NotNull(message = "电话为空")
     private String tel;
 
-    @ApiModelProperty(value = "邮箱")
+    @ApiModelProperty(value = "邮箱", required = true)
+    @NotNull(message = "邮箱为空")
     private String email;
 
     @ApiModelProperty(value = "是否是留守儿童", required = true)
     @NotNull(message = "是否是留守儿童必填")
-    private Integer isleftchild;
+    private Integer isLeftChild;
 
     @ApiModelProperty(value = "头像", required = true)
-    private String headimg;
+    private String headImg;
 
     @ApiModelProperty(value = "支付宝账号")
-    private String payno;
+    private String payNo;
 
 
 

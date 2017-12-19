@@ -3,30 +3,30 @@ package com.ls.model;
 import java.util.Date;
 
 public class Event {
-    private Integer eventid;
+    private Integer eventId;
 
-    private Integer userid;
+    private Integer userId;
 
     private String title;
 
     private String content;
 
-    private String eventimg;
+    private String eventImg;
 
     private Integer flag;
 
-    private Integer hostid;
+    private Integer hostId;
 
     private Date createdTime;
 
-    public Event(Integer eventid, Integer userid, String title, String content, String eventimg, Integer flag, Integer hostid, Date createdTime) {
-        this.eventid = eventid;
-        this.userid = userid;
+    public Event(Integer eventId, Integer userId, String title, String content, String eventImg, Integer flag, Integer hostId, Date createdTime) {
+        this.eventId = eventId;
+        this.userId = userId;
         this.title = title;
         this.content = content;
-        this.eventimg = eventimg;
+        this.eventImg = eventImg;
         this.flag = flag;
-        this.hostid = hostid;
+        this.hostId = hostId;
         this.createdTime = createdTime;
     }
 
@@ -34,20 +34,20 @@ public class Event {
         super();
     }
 
-    public Integer getEventid() {
-        return eventid;
+    public Integer getEventId() {
+        return eventId;
     }
 
-    public void setEventid(Integer eventid) {
-        this.eventid = eventid;
+    public void setEventId(Integer eventId) {
+        this.eventId = eventId;
     }
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getTitle() {
@@ -66,12 +66,12 @@ public class Event {
         this.content = content == null ? null : content.trim();
     }
 
-    public String getEventimg() {
-        return eventimg;
+    public String getEventImg() {
+        return eventImg;
     }
 
-    public void setEventimg(String eventimg) {
-        this.eventimg = eventimg == null ? null : eventimg.trim();
+    public void setEventImg(String eventImg) {
+        this.eventImg = eventImg == null ? null : eventImg.trim();
     }
 
     public Integer getFlag() {
@@ -82,12 +82,12 @@ public class Event {
         this.flag = flag;
     }
 
-    public Integer getHostid() {
-        return hostid;
+    public Integer getHostId() {
+        return hostId;
     }
 
-    public void setHostid(Integer hostid) {
-        this.hostid = hostid;
+    public void setHostId(Integer hostId) {
+        this.hostId = hostId;
     }
 
     public Date getCreatedTime() {

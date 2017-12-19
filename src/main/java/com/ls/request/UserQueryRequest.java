@@ -12,6 +12,8 @@ public class UserQueryRequest extends BaseQueryRequest{
 
     private String nickName;
 
+    private String password;
+
     private int age;
 
     private int isLeftChild;

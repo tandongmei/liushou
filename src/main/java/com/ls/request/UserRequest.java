@@ -10,9 +10,9 @@ import java.util.Date;
 @Data
 public class UserRequest {
 
-    private Integer userid;
+    private Integer userId;
 
-    private String nickname;
+    private String nickName;
 
     private String password;
 
@@ -26,11 +26,11 @@ public class UserRequest {
 
     private String email;
 
-    private Integer isleftchild;
+    private Integer isLeftChild;
 
-    private String headimg;
+    private String headImg;
 
     private Date createdTime;
 
-    private String payno;
+    private String payNo;
 }

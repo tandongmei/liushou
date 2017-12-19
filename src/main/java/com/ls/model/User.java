@@ -3,9 +3,9 @@ package com.ls.model;
 import java.util.Date;
 
 public class User {
-    private Integer userid;
+    private Integer userId;
 
-    private String nickname;
+    private String nickName;
 
     private String password;
 
@@ -19,47 +19,47 @@ public class User {
 
     private String email;
 
-    private Integer isleftchild;
+    private Integer isLeftChild;
 
-    private String headimg;
+    private String headImg;
 
     private Date createdTime;
 
-    private String payno;
+    private String payNo;
 
-    public User(Integer userid, String nickname, String password, String name, Integer age, String gender, String tel, String email, Integer isleftchild, String headimg, Date createdTime, String payno) {
-        this.userid = userid;
-        this.nickname = nickname;
+    public User(Integer userId, String nickName, String password, String name, Integer age, String gender, String tel, String email, Integer isLeftChild, String headImg, Date createdTime, String payNo) {
+        this.userId = userId;
+        this.nickName = nickName;
         this.password = password;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.tel = tel;
         this.email = email;
-        this.isleftchild = isleftchild;
-        this.headimg = headimg;
+        this.isLeftChild = isLeftChild;
+        this.headImg = headImg;
         this.createdTime = createdTime;
-        this.payno = payno;
+        this.payNo = payNo;
     }
 
     public User() {
         super();
     }
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
+    public void setNickName(String nickName) {
+        this.nickName = nickName == null ? null : nickName.trim();
     }
 
     public String getPassword() {
@@ -110,20 +110,20 @@ public class User {
         this.email = email == null ? null : email.trim();
     }
 
-    public Integer getIsleftchild() {
-        return isleftchild;
+    public Integer getIsLeftChild() {
+        return isLeftChild;
     }
 
-    public void setIsleftchild(Integer isleftchild) {
-        this.isleftchild = isleftchild;
+    public void setIsLeftChild(Integer isLeftChild) {
+        this.isLeftChild = isLeftChild;
     }
 
-    public String getHeadimg() {
-        return headimg;
+    public String getHeadImg() {
+        return headImg;
     }
 
-    public void setHeadimg(String headimg) {
-        this.headimg = headimg == null ? null : headimg.trim();
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg == null ? null : headImg.trim();
     }
 
     public Date getCreatedTime() {
@@ -134,11 +134,11 @@ public class User {
         this.createdTime = createdTime;
     }
 
-    public String getPayno() {
-        return payno;
+    public String getPayNo() {
+        return payNo;
     }
 
-    public void setPayno(String payno) {
-        this.payno = payno == null ? null : payno.trim();
+    public void setPayNo(String payNo) {
+        this.payNo = payNo == null ? null : payNo.trim();
     }
 }

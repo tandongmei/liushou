@@ -3,35 +3,35 @@
 <mapper namespace="com.ls.mapper.HostMapper" >
   <resultMap id="BaseResultMap" type="com.ls.model.Host" >
     <constructor >
-      <idArg column="hostId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <idArg column="host_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    hostId, title, created_time
+    host_id, title, created_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from host
-    where hostId = #{hostid,jdbcType=INTEGER}
+    where host_id = #{hostId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from host
-    where hostId = #{hostid,jdbcType=INTEGER}
+    where host_id = #{hostId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.ls.model.Host" >
-    insert into host (hostId, title, created_time
+    insert into host (host_id, title, created_time
       )
-    values (#{hostid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}
+    values (#{hostId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.ls.model.Host" >
     insert into host
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="hostid != null" >
-        hostId,
+      <if test="hostId != null" >
+        host_id,
       </if>
       <if test="title != null" >
         title,
@@ -41,8 +41,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="hostid != null" >
-        #{hostid,jdbcType=INTEGER},
+      <if test="hostId != null" >
+        #{hostId,jdbcType=INTEGER},
       </if>
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
@@ -62,12 +62,12 @@
         created_time = #{createdTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where hostId = #{hostid,jdbcType=INTEGER}
+    where host_id = #{hostId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ls.model.Host" >
     update host
     set title = #{title,jdbcType=VARCHAR},
       created_time = #{createdTime,jdbcType=TIMESTAMP}
-    where hostId = #{hostid,jdbcType=INTEGER}
+    where host_id = #{hostId,jdbcType=INTEGER}
   </update>
 </mapper>

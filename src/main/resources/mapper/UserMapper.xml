@@ -3,54 +3,54 @@
 <mapper namespace="com.ls.mapper.UserMapper" >
   <resultMap id="BaseResultMap" type="com.ls.model.User" >
     <constructor >
-      <idArg column="userId" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="nickName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <idArg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="nick_name" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="age" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="gender" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="tel" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="email" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="isLeftChild" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="headImg" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="is_left_child" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="head_img" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="payNo" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pay_no" jdbcType="VARCHAR" javaType="java.lang.String" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    userId, nickName, password, name, age, gender, tel, email, isLeftChild, headImg, 
-    created_time, payNo
+    user_id, nick_name, password, name, age, gender, tel, email, is_left_child, head_img, 
+    created_time, pay_no
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from user
-    where userId = #{userid,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user
-    where userId = #{userid,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.ls.model.User" >
-    insert into user (userId, nickName, password, 
+    insert into user (user_id, nick_name, password, 
       name, age, gender, 
-      tel, email, isLeftChild, 
-      headImg, created_time, payNo
+      tel, email, is_left_child, 
+      head_img, created_time, pay_no
       )
-    values (#{userid,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=INTEGER}, #{nickName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{gender,jdbcType=VARCHAR}, 
-      #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{isleftchild,jdbcType=INTEGER}, 
-      #{headimg,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{payno,jdbcType=VARCHAR}
+      #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{isLeftChild,jdbcType=INTEGER}, 
+      #{headImg,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{payNo,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.ls.model.User" >
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userid != null" >
-        userId,
+      <if test="userId != null" >
+        user_id,
       </if>
-      <if test="nickname != null" >
-        nickName,
+      <if test="nickName != null" >
+        nick_name,
       </if>
       <if test="password != null" >
         password,
@@ -70,25 +70,25 @@
       <if test="email != null" >
         email,
       </if>
-      <if test="isleftchild != null" >
-        isLeftChild,
+      <if test="isLeftChild != null" >
+        is_left_child,
       </if>
-      <if test="headimg != null" >
-        headImg,
+      <if test="headImg != null" >
+        head_img,
       </if>
       <if test="createdTime != null" >
         created_time,
       </if>
-      <if test="payno != null" >
-        payNo,
+      <if test="payNo != null" >
+        pay_no,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userid != null" >
-        #{userid,jdbcType=INTEGER},
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
       </if>
-      <if test="nickname != null" >
-        #{nickname,jdbcType=VARCHAR},
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         #{password,jdbcType=VARCHAR},
@@ -108,25 +108,25 @@
       <if test="email != null" >
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="isleftchild != null" >
-        #{isleftchild,jdbcType=INTEGER},
+      <if test="isLeftChild != null" >
+        #{isLeftChild,jdbcType=INTEGER},
       </if>
-      <if test="headimg != null" >
-        #{headimg,jdbcType=VARCHAR},
+      <if test="headImg != null" >
+        #{headImg,jdbcType=VARCHAR},
       </if>
       <if test="createdTime != null" >
         #{createdTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="payno != null" >
-        #{payno,jdbcType=VARCHAR},
+      <if test="payNo != null" >
+        #{payNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.ls.model.User" >
     update user
     <set >
-      <if test="nickname != null" >
-        nickName = #{nickname,jdbcType=VARCHAR},
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
@@ -146,48 +146,51 @@
       <if test="email != null" >
         email = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="isleftchild != null" >
-        isLeftChild = #{isleftchild,jdbcType=INTEGER},
+      <if test="isLeftChild != null" >
+        is_left_child = #{isLeftChild,jdbcType=INTEGER},
       </if>
-      <if test="headimg != null" >
-        headImg = #{headimg,jdbcType=VARCHAR},
+      <if test="headImg != null" >
+        head_img = #{headImg,jdbcType=VARCHAR},
       </if>
       <if test="createdTime != null" >
         created_time = #{createdTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="payno != null" >
-        payNo = #{payno,jdbcType=VARCHAR},
+      <if test="payNo != null" >
+        pay_no = #{payNo,jdbcType=VARCHAR},
       </if>
     </set>
-    where userId = #{userid,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ls.model.User" >
     update user
-    set nickName = #{nickname,jdbcType=VARCHAR},
+    set nick_name = #{nickName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER},
       gender = #{gender,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
-      isLeftChild = #{isleftchild,jdbcType=INTEGER},
-      headImg = #{headimg,jdbcType=VARCHAR},
+      is_left_child = #{isLeftChild,jdbcType=INTEGER},
+      head_img = #{headImg,jdbcType=VARCHAR},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
-      payNo = #{payno,jdbcType=VARCHAR}
-    where userId = #{userid,jdbcType=INTEGER}
+      pay_no = #{payNo,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
 
   <select id="findUserList" parameterType="com.ls.request.UserQueryRequest" resultType="java.util.Map">
     select * from user u
     where 1 = 1
     <if test="nickName !=null and nickName !=''">
-      and u.`nickName` LIKE CONCAT('%', CONCAT(#{nickName}, '%'))
+      and u.nick_name = #{nickName}
+    </if>
+    <if test="password !=null and password !=''">
+      and u.password = #{password}
     </if>
     <if test="age !=null and age !=''">
       and u.age = #{age}
     </if>
     <if test="isLeftChild !=null and isLeftChild !=''">
-      and u.isLeftChild = #{isLeftChild}
+      and u.is_left_child = #{isLeftChild}
     </if>
     <if test="sort !=null and dir !=null ">
       ORDER BY u.${sort} ${dir}

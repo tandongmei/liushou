@@ -8,7 +8,7 @@ public enum ResCodeEnum {
     SUCCESS(0, "成功"),
     SERVER_ERROR(-99, "系统异常"),
     //user
-    USER_EMPTY(1001, "用户信息为空");
+    USER_EMPTY(1001, "用户不存在");
 
     private int code;
     private String msg;

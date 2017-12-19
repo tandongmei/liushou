@@ -1,5 +1,6 @@
 package com.ls.service;
 
+import com.ls.model.User;
 import com.ls.request.UserQueryRequest;
 import com.ls.request.UserRequest;
 
@@ -14,5 +15,7 @@ public interface IUserService {
     List<Map<String,Object>> findUserList(UserQueryRequest userQueryRequest);
 
     void createUser(UserRequest userRequest);
+
+    User getUser(UserQueryRequest userQueryRequest);
 
 }

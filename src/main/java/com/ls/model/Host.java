@@ -3,14 +3,14 @@ package com.ls.model;
 import java.util.Date;
 
 public class Host {
-    private Integer hostid;
+    private Integer hostId;
 
     private String title;
 
     private Date createdTime;
 
-    public Host(Integer hostid, String title, Date createdTime) {
-        this.hostid = hostid;
+    public Host(Integer hostId, String title, Date createdTime) {
+        this.hostId = hostId;
         this.title = title;
         this.createdTime = createdTime;
     }
@@ -19,12 +19,12 @@ public class Host {
         super();
     }
 
-    public Integer getHostid() {
-        return hostid;
+    public Integer getHostId() {
+        return hostId;
     }
 
-    public void setHostid(Integer hostid) {
-        this.hostid = hostid;
+    public void setHostId(Integer hostId) {
+        this.hostId = hostId;
     }
 
     public String getTitle() {

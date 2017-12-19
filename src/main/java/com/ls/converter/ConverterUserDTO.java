@@ -19,6 +19,8 @@ public class ConverterUserDTO extends BaseConverterDTO{
             userQueryRequest.setPageSize(pageSize);
         }
         sort = camel2Underline(sort);
+//        String isLeftChild = camel2Underline(userQueryRequest.getIsLeftChild()+"");
+//        userQueryRequest.setIsLeftChild(isLeftChild);
         userQueryRequest.setSort(sort);
         userQueryRequest.setDir(dir);
         return userQueryRequest;
