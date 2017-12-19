@@ -111,7 +111,7 @@ public class UserController {
             }
             UserQueryRequest userQueryRequest = new UserQueryRequest();
             userQueryRequest.setNickName(nickName);
-            userQueryRequest.setPassword(MD5Util.md5Hex(password));
+//            userQueryRequest.setPassword(MD5Util.md5Hex(password));
             User user = userService.getUser(userQueryRequest);
         }catch (Exception e){
             restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());

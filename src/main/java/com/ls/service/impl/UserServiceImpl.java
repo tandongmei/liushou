@@ -40,12 +40,13 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public User getUser(UserQueryRequest userQueryRequest) {
-        List<Map<String,Object>> userList = userMapper.findUserList(userQueryRequest);
-        if(userList == null || userList.size() <= 0){
-            throw new ServiceException(ResCodeEnum.USER_EMPTY.getCode(),ResCodeEnum.USER_EMPTY.getMsg());
-        }
-        Map<String,Object> user = userList.get(0);
-        return null;
+        User user = userMapper.getUser(userQueryRequest);
+//        List<Map<String,Object>> userList = userMapper.findUserList(userQueryRequest);
+//        if(userList == null || userList.size() <= 0){
+//            throw new ServiceException(ResCodeEnum.USER_EMPTY.getCode(),ResCodeEnum.USER_EMPTY.getMsg());
+//        }
+//        Map<String,Object> user = userList.get(0);
+        return user;
     }
 
     private void bindUser(UserRequest userRequest,User user){
