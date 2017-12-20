@@ -32,7 +32,15 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public void createUser(UserRequest userRequest) {
-        User user = new User();
+        // 判断用户名是否存在
+        UserQueryRequest userQueryRequest = new UserQueryRequest();
+        userQueryRequest.setNickName(userRequest.getNickName());
+        User user = userMapper.getUser(userQueryRequest);
+        if(user != null){
+            // 用户已经存在
+            throw new ServiceException(ResCodeEnum.USER_EXISTS.getCode(),ResCodeEnum.USER_EXISTS.getMsg());
+        }
+        user = new User();
         bindUser(userRequest,user);
         user.setCreatedTime(new Date());
         userMapper.insertSelective(user);
@@ -41,11 +49,9 @@ public class UserServiceImpl implements IUserService{
     @Override
     public User getUser(UserQueryRequest userQueryRequest) {
         User user = userMapper.getUser(userQueryRequest);
-//        List<Map<String,Object>> userList = userMapper.findUserList(userQueryRequest);
-//        if(userList == null || userList.size() <= 0){
-//            throw new ServiceException(ResCodeEnum.USER_EMPTY.getCode(),ResCodeEnum.USER_EMPTY.getMsg());
-//        }
-//        Map<String,Object> user = userList.get(0);
+        if(user == null){
+            throw new ServiceException(ResCodeEnum.USER_EMPTY.getCode(),ResCodeEnum.USER_EMPTY.getMsg());
+        }
         return user;
     }
 

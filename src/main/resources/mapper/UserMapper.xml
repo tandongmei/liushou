@@ -217,8 +217,6 @@
     <if test="nickName !=null and nickName !=''">
       and u.nick_name = #{nickName}
     </if>
-    <if test="password !=null and password !=''">
-      and u.password = #{password}
-    </if>
+
   </select>
 </mapper>

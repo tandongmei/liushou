@@ -10,7 +10,7 @@ public class RestfulResponse<T> {
     private int code = 0;
 
     @ApiModelProperty(value = "错误消息", required = true)
-    private String msg;
+    private String msg = "成功";
 
     @ApiModelProperty(value = "数据集合", required = true)
     private T data;

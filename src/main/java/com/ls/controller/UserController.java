@@ -92,6 +92,10 @@ public class UserController {
             }
             UserRequest userRequest = ConverterUserDTO.converterUserDTO(userDTO);
             userService.createUser(userRequest);
+        }catch (ServiceException se) {
+            restfulResponse.setCode(ResCodeEnum.USER_EXISTS.getCode());
+            restfulResponse.setMsg(ResCodeEnum.USER_EXISTS.getMsg());
+            logger.catching(se);
         } catch (Exception e) {
             restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
             restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
@@ -111,8 +115,15 @@ public class UserController {
             }
             UserQueryRequest userQueryRequest = new UserQueryRequest();
             userQueryRequest.setNickName(nickName);
-//            userQueryRequest.setPassword(MD5Util.md5Hex(password));
             User user = userService.getUser(userQueryRequest);
+            if(!user.getPassword().equals( MD5Util.md5Hex(password))){
+                restfulResponse.setCode(-2);
+                restfulResponse.setMsg("密码错误");
+            }
+        }catch (ServiceException se){
+            restfulResponse.setCode(se.getCode());
+            restfulResponse.setMsg(se.getMessage());
+            logger.catching(se);
         }catch (Exception e){
             restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
             restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
