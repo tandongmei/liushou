@@ -2,19 +2,21 @@ package com.ls.controller;
 
 import com.ls.common.RestfulResponse;
 import com.ls.converter.ConverterUserDTO;
+import com.ls.dto.UserDTO;
 import com.ls.exception.ServiceException;
 import com.ls.model.User;
 import com.ls.model.enm.ResCodeEnum;
 import com.ls.request.UserQueryRequest;
+import com.ls.request.UserRequest;
 import com.ls.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -57,6 +59,6 @@ public class UserController {
             logger.catching(e);
         }
         return restfulResponse;
-
     }
+
 }

@@ -1,7 +1,10 @@
 package com.ls.converter;
 
+import com.ls.dto.UserDTO;
 import com.ls.request.UserQueryRequest;
 import com.alibaba.fastjson.JSON;
+import com.ls.request.UserRequest;
+import org.springframework.beans.BeanUtils;
 
 /**
  * Created by tan.dongmei on 2017/12/1
@@ -19,4 +22,5 @@ public class ConverterUserDTO extends BaseConverterDTO{
         userQueryRequest.setDir(dir);
         return userQueryRequest;
     }
+
 }
