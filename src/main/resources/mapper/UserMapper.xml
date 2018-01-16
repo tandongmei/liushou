@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ls.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.ls.model.User" >
+    <constructor >
+      <idArg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="nick_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="age" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="gender" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="tel" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="email" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="is_left_child" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="head_img" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="pay_no" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, nick_name, password, name, age, gender, tel, email, is_left_child, head_img, 
+    created_time, pay_no
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ls.model.User" >
+    insert into user (user_id, nick_name, password, 
+      name, age, gender, 
+      tel, email, is_left_child, 
+      head_img, created_time, pay_no
+      )
+    values (#{userId,jdbcType=INTEGER}, #{nickName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{gender,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{isLeftChild,jdbcType=INTEGER}, 
+      #{headImg,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{payNo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ls.model.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="isLeftChild != null" >
+        is_left_child,
+      </if>
+      <if test="headImg != null" >
+        head_img,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="payNo != null" >
+        pay_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isLeftChild != null" >
+        #{isLeftChild,jdbcType=INTEGER},
+      </if>
+      <if test="headImg != null" >
+        #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payNo != null" >
+        #{payNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ls.model.User" >
+    update user
+    <set >
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isLeftChild != null" >
+        is_left_child = #{isLeftChild,jdbcType=INTEGER},
+      </if>
+      <if test="headImg != null" >
+        head_img = #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payNo != null" >
+        pay_no = #{payNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ls.model.User" >
+    update user
+    set nick_name = #{nickName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      gender = #{gender,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      is_left_child = #{isLeftChild,jdbcType=INTEGER},
+      head_img = #{headImg,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      pay_no = #{payNo,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <select id="findUserList" parameterType="com.ls.request.UserQueryRequest" resultType="java.util.Map">
+    select * from user u
+    where 1 = 1
+    <if test="nickName !=null and nickName !=''">
+      and u.nick_name = #{nickName}
+    </if>
+    <if test="password !=null and password !=''">
+      and u.password = #{password}
+    </if>
+    <if test="age !=null and age !=''">
+      and u.age = #{age}
+    </if>
+    <if test="isLeftChild !=null and isLeftChild !=''">
+      and u.is_left_child = #{isLeftChild}
+    </if>
+    <if test="sort !=null and dir !=null ">
+      ORDER BY u.${sort} ${dir}
+    </if>
+    <if test="pageNo != null and pageSize != null ">
+      LIMIT #{pageNo},#{pageSize}
+    </if>
+  </select>
+
+  <select id="getUser" parameterType="com.ls.request.UserQueryRequest" resultType="com.ls.model.User">
+    select u.user_id userId,
+        u.nick_name nickName,
+        u.password,
+        u.name,
+        u.age,
+        u.gender,
+        u.tel,
+        u.email,
+        u.is_left_child isLeftChild,
+        u.head_img headImg,
+        u.pay_no payNo
+    from user u
+    where 1 = 1
+    <if test="nickName !=null and nickName !=''">
+      and u.nick_name = #{nickName}
+    </if>
+
+  </select>
+</mapper>

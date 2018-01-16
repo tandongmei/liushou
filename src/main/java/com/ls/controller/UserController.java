@@ -2,19 +2,30 @@ package com.ls.controller;
 
 import com.ls.common.RestfulResponse;
 import com.ls.converter.ConverterUserDTO;
+import com.ls.dto.UserDTO;
 import com.ls.exception.ServiceException;
 import com.ls.model.User;
 import com.ls.model.enm.ResCodeEnum;
 import com.ls.request.UserQueryRequest;
+import com.ls.request.UserRequest;
 import com.ls.service.IUserService;
+import com.ls.util.MD5Util;
+import com.ls.util.ValidUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
+=======
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+>>>>>>> 9dad952592aa07ff8a49ebcedc255b3f774bbf00
 import org.springframework.web.bind.annotation.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +44,7 @@ public class UserController {
 
     @ApiOperation(value = "用户列表")
     @GetMapping(value = "")
-    public RestfulResponse<List<User>> findUser(
+    public RestfulResponse<List<Map<String,Object>>> findUser(
             @ApiParam(name = "filters", value = "查询条件") @RequestParam(value = "filters") String filters,
             @ApiParam(name = "pageNo", value = "起始页") @RequestParam(name = "pageNo", required = false) Integer pageNo,
             @ApiParam(name = "pageSize", value = "每页条数") @RequestParam(name = "pageSize", required = false) Integer pageSize,
@@ -42,12 +53,80 @@ public class UserController {
         RestfulResponse restfulResponse = new RestfulResponse();
         try {
             UserQueryRequest userQueryRequest = ConverterUserDTO.converterUserDTO(pageNo,pageSize,sort,dir,filters);
-            List<Map<String,Object>> userList = userService.findUser(userQueryRequest);
+            List<Map<String,Object>> userList = userService.findUserList(userQueryRequest);
             restfulResponse.setData(userList);
-        }catch (ServiceException se){
-            restfulResponse.setCode(ResCodeEnum.USER_EMPTY.getCode());
+        }catch (Exception e){
+            restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
+            restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
+            logger.catching(e);
+        }
+        return restfulResponse;
+    }
+    @ApiOperation(value = "用户注册")
+    @PostMapping(value = "")
+    public RestfulResponse createAdministrator(@RequestBody @Valid UserDTO userDTO, BindingResult result) {
+        RestfulResponse restfulResponse = new RestfulResponse();
+        try {
+            if (result.hasErrors()) {
+                List<ObjectError> allErrors = result.getAllErrors();
+                restfulResponse.setCode(-1);
+                restfulResponse.setMsg(allErrors.get(0).getDefaultMessage());
+                return restfulResponse;
+            }
+            // 校验手机号格式
+            if (!ValidUtil.validateTel(userDTO.getTel())) {
+                restfulResponse.setCode(-1);
+                restfulResponse.setMsg("手机号格式错误");
+                return restfulResponse;
+            }
+            // 校验邮箱格式
+            if (!ValidUtil.validateEmail(userDTO.getEmail())) {
+                restfulResponse.setCode(-1);
+                restfulResponse.setMsg("邮箱格式错误");
+                return restfulResponse;
+            }
+            // 校验支付宝账号
+            if(!StringUtils.isEmpty(userDTO.getPayNo())){
+                if(!ValidUtil.validatePayNo(userDTO.getPayNo())){
+                    restfulResponse.setCode(-1);
+                    restfulResponse.setMsg("支付宝账号格式错误");
+                    return restfulResponse;
+                }
+            }
+            UserRequest userRequest = ConverterUserDTO.converterUserDTO(userDTO);
+            userService.createUser(userRequest);
+        }catch (ServiceException se) {
+            restfulResponse.setCode(ResCodeEnum.USER_EXISTS.getCode());
+            restfulResponse.setMsg(ResCodeEnum.USER_EXISTS.getMsg());
             logger.catching(se);
-            restfulResponse.setMsg(ResCodeEnum.USER_EMPTY.getMsg());
+        } catch (Exception e) {
+            restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
+            restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
+            logger.catching(e);
+        }
+        return restfulResponse;
+    }
+
+    @ApiOperation(value = "用户登陆")
+    @PostMapping(value = "/login")
+    public RestfulResponse login(@RequestParam(name = "nickName") String nickName,@RequestParam(name = "password") String password){
+        RestfulResponse restfulResponse = new RestfulResponse();
+        try{
+            if(StringUtils.isEmpty(nickName) || StringUtils.isEmpty(password)){
+                restfulResponse.setCode(-1);
+                restfulResponse.setMsg("用户名或密码为空");
+            }
+            UserQueryRequest userQueryRequest = new UserQueryRequest();
+            userQueryRequest.setNickName(nickName);
+            User user = userService.getUser(userQueryRequest);
+            if(!user.getPassword().equals( MD5Util.md5Hex(password))){
+                restfulResponse.setCode(-2);
+                restfulResponse.setMsg("密码错误");
+            }
+        }catch (ServiceException se){
+            restfulResponse.setCode(se.getCode());
+            restfulResponse.setMsg(se.getMessage());
+            logger.catching(se);
         }catch (Exception e){
             restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
             restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());

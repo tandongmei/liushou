@@ -1,6 +1,8 @@
 package com.ls.service;
 
+import com.ls.model.User;
 import com.ls.request.UserQueryRequest;
+import com.ls.request.UserRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,10 @@ import java.util.Map;
  */
 public interface IUserService {
 
-    List<Map<String,Object>> findUser(UserQueryRequest userQueryRequest);
+    List<Map<String,Object>> findUserList(UserQueryRequest userQueryRequest);
+
+    void createUser(UserRequest userRequest);
+
+    User getUser(UserQueryRequest userQueryRequest);
 
 }

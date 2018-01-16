@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ls.mapper.EventMapper" >
+  <resultMap id="BaseResultMap" type="com.ls.model.Event" >
+    <constructor >
+      <idArg column="event_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="content" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="event_img" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="flag" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="host_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    event_id, user_id, title, content, event_img, flag, host_id, created_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from event
+    where event_id = #{eventId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from event
+    where event_id = #{eventId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ls.model.Event" >
+    insert into event (event_id, user_id, title, 
+      content, event_img, flag, 
+      host_id, created_time)
+    values (#{eventId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{eventImg,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER}, 
+      #{hostId,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ls.model.Event" >
+    insert into event
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="eventId != null" >
+        event_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="eventImg != null" >
+        event_img,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+      <if test="hostId != null" >
+        host_id,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="eventId != null" >
+        #{eventId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="eventImg != null" >
+        #{eventImg,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="hostId != null" >
+        #{hostId,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ls.model.Event" >
+    update event
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="eventImg != null" >
+        event_img = #{eventImg,jdbcType=VARCHAR},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=INTEGER},
+      </if>
+      <if test="hostId != null" >
+        host_id = #{hostId,jdbcType=INTEGER},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where event_id = #{eventId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ls.model.Event" >
+    update event
+    set user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      event_img = #{eventImg,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=INTEGER},
+      host_id = #{hostId,jdbcType=INTEGER},
+      created_time = #{createdTime,jdbcType=TIMESTAMP}
+    where event_id = #{eventId,jdbcType=INTEGER}
+  </update>
+</mapper>
