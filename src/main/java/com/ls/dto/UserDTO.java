@@ -15,8 +15,6 @@ import javax.validation.constraints.Size;
 @ApiModel(value = "用户对象",description = "userDTO")
 public class UserDTO {
 
-<<<<<<< HEAD
-=======
     @ApiModelProperty(value = "用户昵称", required = true)
     @Size(max = 20,message = "用户昵称长度不能超过20")
     @NotNull(message = "用户昵称为空")
@@ -58,6 +56,4 @@ public class UserDTO {
     private String payNo;
 
 
-
->>>>>>> 9dad952592aa07ff8a49ebcedc255b3f774bbf00
 }
