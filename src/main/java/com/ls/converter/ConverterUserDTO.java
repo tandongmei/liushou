@@ -26,6 +26,7 @@ public class ConverterUserDTO extends BaseConverterDTO{
         return userQueryRequest;
     }
 
+
     public static UserRequest converterUserDTO(UserDTO userDTO){
         if (userDTO == null) {
             return null;
