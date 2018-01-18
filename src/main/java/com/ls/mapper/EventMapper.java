@@ -1,6 +1,10 @@
 package com.ls.mapper;
 
 import com.ls.model.Event;
+import com.ls.request.EventQueryRequest;
+
+import java.util.List;
+import java.util.Map;
 
 public interface EventMapper {
     int deleteByPrimaryKey(Integer eventId);
@@ -14,4 +18,6 @@ public interface EventMapper {
     int updateByPrimaryKeySelective(Event record);
 
     int updateByPrimaryKey(Event record);
+
+    List<Map<Object,String>> findEventList(EventQueryRequest eventQueryRequest);
 }

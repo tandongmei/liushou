@@ -21,7 +21,7 @@ public class BaseConverterDTO {
     }
 
     public static int getCurrentRecord(int pageNo, int pageSize) {
-        return (pageNo - 1) * pageSize + 1;
+        return (pageNo - 1) * pageSize;
     }
 
     public static String camel2Underline(String line){

@@ -9,7 +9,9 @@ public enum ResCodeEnum {
     SERVER_ERROR(-99, "系统异常"),
     //user
     USER_EMPTY(1001, "用户不存在"),
-    USER_EXISTS(1002, "用户名已经存在");
+    USER_EXISTS(1002, "用户名已经存在"),
+    //event
+    EVENT_EMPTY(2001,"详情查询异常");
 
     private int code;
     private String msg;
