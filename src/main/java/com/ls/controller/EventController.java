@@ -2,10 +2,12 @@ package com.ls.controller;
 
 import com.ls.common.RestfulResponse;
 import com.ls.converter.ConverterEventDTO;
+import com.ls.dto.EventDTO;
 import com.ls.exception.ServiceException;
 import com.ls.model.Event;
 import com.ls.model.enm.ResCodeEnum;
 import com.ls.request.EventQueryRequest;
+import com.ls.request.EventRequest;
 import com.ls.service.IEventService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +15,9 @@ import io.swagger.annotations.ApiParam;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -72,5 +77,27 @@ public class EventController {
            }
            return restfulResponse;
     }
+
+    @ApiOperation(value = "新增事件")
+    @PutMapping(value = "")
+    public RestfulResponse create(@RequestBody @Validated EventDTO eventDTO, BindingResult result){
+        RestfulResponse restfulResponse = new RestfulResponse();
+        try{
+            if(result.hasErrors()){
+                List<ObjectError> list = result.getAllErrors();
+                restfulResponse.setCode(-1);
+                restfulResponse.setMsg(list.get(0).getDefaultMessage());
+                return restfulResponse;
+            }
+            EventRequest eventRequest = ConverterEventDTO.converterEventDTO(eventDTO);
+            eventService.create(eventRequest);
+        }catch (Exception e){
+            restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
+            restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
+            logger.catching(e);
+        }
+        return restfulResponse;
+    }
+
 
 }
