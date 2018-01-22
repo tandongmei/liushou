@@ -9,6 +9,7 @@ import com.ls.model.enm.ResCodeEnum;
 import com.ls.request.EventQueryRequest;
 import com.ls.request.EventRequest;
 import com.ls.service.IEventService;
+import com.ls.util.QiniuUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -19,7 +20,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.lang.management.MemoryUsage;
 import java.util.List;
 import java.util.Map;
 
@@ -100,6 +104,26 @@ public class EventController {
         }
         return restfulResponse;
     }
+
+
+    @ApiOperation(value = "上传图片事件")
+    @PutMapping(value = "/upload")
+    public RestfulResponse upload(MultipartFile photo,Integer eventId){
+        RestfulResponse restfulResponse = new RestfulResponse();
+        try {
+            String key = QiniuUtil.uploadFile(photo.getOriginalFilename(),photo.getBytes());
+            EventQueryRequest eventQueryRequest = new EventQueryRequest();
+            eventQueryRequest.setEventId(eventId);
+            Event event = eventService.getEvent(eventQueryRequest);
+            event.setEventImg(QiniuUtil.getUrl(key));//保存图片地址
+            //更新事件
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return restfulResponse;
+    }
+
 
 
 }
