@@ -48,6 +48,11 @@ public class EventServiceImpl implements IEventService {
         eventMapper.insertSelective(event);
     }
 
+    @Override
+    public int getTotalRecords(EventQueryRequest eventQueryRequest) {
+        return eventMapper.findEventListCount(eventQueryRequest);
+    }
+
     private Event bindEvent(EventRequest eventRequest){
         Event event = new Event();
         BeanUtils.copyProperties(eventRequest,event);

@@ -129,7 +129,15 @@
   </update>
 
   <select id="findEventList" parameterType="com.ls.request.EventQueryRequest" resultType="java.util.Map">
-    select * from event e
+    select e.event_id eventId,
+            e.user_id userId,
+            e.title,
+            e.content,
+            e.event_img eventImg,
+            e.flag,
+            e.host_id hostId,
+            e.created_time createdTime
+    from event e
     WHERE 1=1
     <if test="sort !=null and dir != null">
       ORDER BY e.${sort} ${dir}
@@ -137,5 +145,10 @@
     <if test="pageNo != null and pageSize != null">
       limit #{pageNo},#{pageSize}
     </if>
+  </select>
+
+  <select id="findEventListCount" parameterType="com.ls.request.EventQueryRequest" resultType="java.lang.Integer">
+    select count(*)
+    from event
   </select>
 </mapper>

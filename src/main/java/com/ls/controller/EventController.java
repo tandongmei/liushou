@@ -48,7 +48,9 @@ public class EventController {
         try{
             EventQueryRequest eventQueryRequest = ConverterEventDTO.converterEventDTO(filters,pageNo,pageSize,sort,dir);
             List<Map<Object,String>> eventList = eventService.findEventList(eventQueryRequest);
+            int totalRecords = eventService.getTotalRecords(eventQueryRequest);
             restfulResponse.setData(eventList);
+            restfulResponse.setTotalRecords(totalRecords);
         }catch (Exception e){
             restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
             restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());

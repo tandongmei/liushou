@@ -20,4 +20,6 @@ public interface EventMapper {
     int updateByPrimaryKey(Event record);
 
     List<Map<Object,String>> findEventList(EventQueryRequest eventQueryRequest);
+
+    int findEventListCount(EventQueryRequest eventQueryRequest);
 }

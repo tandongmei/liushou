@@ -178,7 +178,19 @@
   </update>
 
   <select id="findUserList" parameterType="com.ls.request.UserQueryRequest" resultType="java.util.Map">
-    select * from user u
+    select u.user_id userId,
+            u.nick_name nickName,
+            u.password,
+            u.name,
+            u.age,
+            u.gender,
+            u.tel,
+            u.email,
+            u.is_left_child isLeftChild,
+            u.head_img headImg,
+            u.created_time createdTime
+            u.pay_no payNo
+    from user u
     where 1 = 1
     <if test="nickName !=null and nickName !=''">
       and u.nick_name = #{nickName}

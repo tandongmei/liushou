@@ -9,4 +9,6 @@ import lombok.Data;
 public class EventQueryRequest extends BaseQueryRequest {
 
     private Integer eventId;
+
+    private String title;
 }

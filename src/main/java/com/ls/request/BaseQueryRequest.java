@@ -10,7 +10,7 @@ public class BaseQueryRequest {
 
     protected int pageNo = 1;
 
-    protected int pageSize = 15;
+    protected int pageSize = 10;
 
     protected String sort;
 
