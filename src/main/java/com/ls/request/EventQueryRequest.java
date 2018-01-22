@@ -10,5 +10,5 @@ public class EventQueryRequest extends BaseQueryRequest {
 
     private Integer eventId;
 
-    private String title;
+    private Integer isLeftChild;
 }
