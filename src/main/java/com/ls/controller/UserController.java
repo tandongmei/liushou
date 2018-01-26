@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class UserController {
     }
     @ApiOperation(value = "用户注册")
     @PostMapping(value = "")
-    public RestfulResponse createAdministrator(@RequestBody @Valid UserDTO userDTO, BindingResult result) {
+    public RestfulResponse<User> createAdministrator(@RequestBody @Valid UserDTO userDTO, BindingResult result) {
         RestfulResponse restfulResponse = new RestfulResponse();
         try {
             if (result.hasErrors()) {
@@ -71,27 +72,28 @@ public class UserController {
                 return restfulResponse;
             }
             // 校验手机号格式
-            if (!ValidUtil.validateTel(userDTO.getTel())) {
-                restfulResponse.setCode(-1);
-                restfulResponse.setMsg("手机号格式错误");
-                return restfulResponse;
-            }
+//            if (!ValidUtil.validateTel(userDTO.getTel())) {
+//                restfulResponse.setCode(-1);
+//                restfulResponse.setMsg("手机号格式错误");
+//                return restfulResponse;
+//            }
             // 校验邮箱格式
-            if (!ValidUtil.validateEmail(userDTO.getEmail())) {
-                restfulResponse.setCode(-1);
-                restfulResponse.setMsg("邮箱格式错误");
-                return restfulResponse;
-            }
+//            if (!ValidUtil.validateEmail(userDTO.getEmail())) {
+//                restfulResponse.setCode(-1);
+//                restfulResponse.setMsg("邮箱格式错误");
+//                return restfulResponse;
+//            }
             // 校验支付宝账号
-            if(!StringUtils.isEmpty(userDTO.getPayNo())){
-                if(!ValidUtil.validatePayNo(userDTO.getPayNo())){
-                    restfulResponse.setCode(-1);
-                    restfulResponse.setMsg("支付宝账号格式错误");
-                    return restfulResponse;
-                }
-            }
+//            if(!StringUtils.isEmpty(userDTO.getPayNo())){
+//                if(!ValidUtil.validatePayNo(userDTO.getPayNo())){
+//                    restfulResponse.setCode(-1);
+//                    restfulResponse.setMsg("支付宝账号格式错误");
+//                    return restfulResponse;
+//                }
+//            }
             UserRequest userRequest = ConverterUserDTO.converterUserDTO(userDTO);
-            userService.createUser(userRequest);
+            User user = userService.createUser(userRequest);
+            restfulResponse.setData(user);
         }catch (ServiceException se) {
             restfulResponse.setCode(ResCodeEnum.USER_EXISTS.getCode());
             restfulResponse.setMsg(ResCodeEnum.USER_EXISTS.getMsg());
@@ -106,7 +108,7 @@ public class UserController {
 
     @ApiOperation(value = "用户登陆")
     @PostMapping(value = "/login")
-    public RestfulResponse login(@RequestParam(name = "nickName") String nickName,@RequestParam(name = "password") String password){
+    public RestfulResponse<User> login(@RequestParam(name = "nickName") String nickName, @RequestParam(name = "password") String password, HttpServletRequest request){
         RestfulResponse restfulResponse = new RestfulResponse();
         try{
             if(StringUtils.isEmpty(nickName) || StringUtils.isEmpty(password)){
@@ -120,6 +122,9 @@ public class UserController {
                 restfulResponse.setCode(-2);
                 restfulResponse.setMsg("密码错误");
             }
+            restfulResponse.setData(user);
+            // 登陆信息保存在session
+            request.getSession().setAttribute("userSignIn",user.getNickName());
         }catch (ServiceException se){
             restfulResponse.setCode(se.getCode());
             restfulResponse.setMsg(se.getMessage());

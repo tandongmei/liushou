@@ -31,7 +31,7 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public void createUser(UserRequest userRequest) {
+    public User createUser(UserRequest userRequest) {
         // 判断用户名是否存在
         UserQueryRequest userQueryRequest = new UserQueryRequest();
         userQueryRequest.setNickName(userRequest.getNickName());
@@ -44,6 +44,7 @@ public class UserServiceImpl implements IUserService{
         bindUser(userRequest,user);
         user.setCreatedTime(new Date());
         userMapper.insertSelective(user);
+        return user;
     }
 
     @Override
