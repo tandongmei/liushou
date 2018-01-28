@@ -138,7 +138,12 @@
             e.host_id hostId,
             e.created_time createdTime
     from event e
+    LEFT JOIN user u
+    on e.user_id = u.user_id
     WHERE 1=1
+    <if test="isLeftChild != null">
+      and u.is_left_child = #{isLeftChild}
+    </if>
     <if test="sort !=null and dir != null">
       ORDER BY e.${sort} ${dir}
     </if>
@@ -149,6 +154,12 @@
 
   <select id="findEventListCount" parameterType="com.ls.request.EventQueryRequest" resultType="java.lang.Integer">
     select count(*)
-    from event
+    from event e
+    LEFT JOIN user u
+    on u.user_id = e.user_id
+    where 1 = 1
+    <if test="isLeftChild != null">
+      and u.is_left_child = #{isLeftChild}
+    </if>
   </select>
 </mapper>
