@@ -124,7 +124,7 @@ public class UserController {
             }
             restfulResponse.setData(user);
             // 登陆信息保存在session
-            request.getSession().setAttribute("userSignIn",user.getNickName());
+//            request.getSession().setAttribute("userSignIn",user.getNickName());
         }catch (ServiceException se){
             restfulResponse.setCode(se.getCode());
             restfulResponse.setMsg(se.getMessage());
