@@ -44,6 +44,9 @@ public class UserServiceImpl implements IUserService{
         user = new User();
         bindUser(userRequest,user);
         user.setCreatedTime(new Date());
+        user.setGender("1");
+        user.setHeadImg("static/images/user/moren.jpg");
+        user.setIsLeftChild(1);
         userMapper.insertSelective(user);
         return user;
     }
@@ -60,21 +63,22 @@ public class UserServiceImpl implements IUserService{
     @Override
     public User updateUser(UserRequest userRequest) {
         // 判断用户名是否存在
-        UserQueryRequest userQueryRequest = new UserQueryRequest();
-        userQueryRequest.setNickName(userRequest.getNickName());
-        User user = userMapper.getUser(userQueryRequest);
-        if(user != null){
-            // 用户已经存在
-            throw new ServiceException(ResCodeEnum.USER_EXISTS.getCode(),ResCodeEnum.USER_EXISTS.getMsg());
+        User user = userMapper.selectByPrimaryKey(userRequest.getUserId());
+        if(!user.getNickName().equals(userRequest.getNickName())){ // 说明用户昵称被修改
+            UserQueryRequest userQueryRequest = new UserQueryRequest();
+            userQueryRequest.setNickName(userRequest.getNickName());
+            User u = userMapper.getUser(userQueryRequest);
+            if(u != null){
+                // 用户已经存在
+                throw new ServiceException(ResCodeEnum.USER_EXISTS.getCode(),ResCodeEnum.USER_EXISTS.getMsg());
+            }
         }
-        user = userMapper.selectByPrimaryKey(userRequest.getUserId());
         bindUser(userRequest,user);
         userMapper.updateByPrimaryKey(user);
         return user;
     }
 
     private void bindUser(UserRequest userRequest,User user){
-
         if(!StringUtils.isEmpty(userRequest.getNickName())){
             user.setNickName(userRequest.getNickName());
         }
