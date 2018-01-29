@@ -1,6 +1,7 @@
 package com.ls.converter;
 
 import com.ls.dto.UserDTO;
+import com.ls.dto.UserUpdateDTO;
 import com.ls.request.UserQueryRequest;
 import com.alibaba.fastjson.JSON;
 import com.ls.request.UserRequest;
@@ -34,6 +35,16 @@ public class ConverterUserDTO extends BaseConverterDTO{
         UserRequest userRequest = new UserRequest();
         BeanUtils.copyProperties(userDTO, userRequest);
         userRequest.setPassword(MD5Util.md5Hex(userDTO.getPassword()));
+        return userRequest;
+    }
+
+    public static UserRequest converterUserDTO(Integer userId, UserUpdateDTO userUpdateDTO){
+        if (userUpdateDTO == null) {
+            return null;
+        }
+        UserRequest userRequest = new UserRequest();
+        BeanUtils.copyProperties(userUpdateDTO, userRequest);
+        userRequest.setUserId(userId);
         return userRequest;
     }
 

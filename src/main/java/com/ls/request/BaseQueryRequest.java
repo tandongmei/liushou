@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class BaseQueryRequest {
 
-    protected int pageNo = 1;
+    protected int pageNo = 0;
 
     protected int pageSize = 10;
 
