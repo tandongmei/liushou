@@ -3,6 +3,7 @@ package com.ls.controller;
 import com.ls.common.RestfulResponse;
 import com.ls.converter.ConverterUserDTO;
 import com.ls.dto.UserDTO;
+import com.ls.dto.UserUpdateDTO;
 import com.ls.exception.ServiceException;
 import com.ls.model.User;
 import com.ls.model.enm.ResCodeEnum;
@@ -58,7 +59,7 @@ public class UserController {
             restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
             logger.catching(e);
         }
-        return restfulResponse;
+       return restfulResponse;
     }
     @ApiOperation(value = "用户注册")
     @PostMapping(value = "")
@@ -130,6 +131,56 @@ public class UserController {
             restfulResponse.setMsg(se.getMessage());
             logger.catching(se);
         }catch (Exception e){
+            restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
+            restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
+            logger.catching(e);
+        }
+        return restfulResponse;
+    }
+
+    @ApiOperation(value = "修改资料")
+    @PutMapping(value = "/{id}")
+    public RestfulResponse<User> update(@PathVariable(value = "id") Integer userId, @RequestBody @Valid UserUpdateDTO userUpdateDTO, BindingResult result){
+        RestfulResponse restfulResponse = new RestfulResponse();
+        try {
+            if (result.hasErrors()) {
+                List<ObjectError> allErrors = result.getAllErrors();
+                restfulResponse.setCode(-1);
+                restfulResponse.setMsg(allErrors.get(0).getDefaultMessage());
+                return restfulResponse;
+            }
+            // 校验手机号格式
+            if(!StringUtils.isEmpty(userUpdateDTO.getTel())){
+                if (!ValidUtil.validateTel(userUpdateDTO.getTel())) {
+                    restfulResponse.setCode(-1);
+                    restfulResponse.setMsg("手机号格式错误");
+                    return restfulResponse;
+                }
+            }
+            // 校验邮箱格式
+            if(!StringUtils.isEmpty(userUpdateDTO.getEmail())){
+                if (!ValidUtil.validateEmail(userUpdateDTO.getEmail())) {
+                    restfulResponse.setCode(-1);
+                    restfulResponse.setMsg("邮箱格式错误");
+                    return restfulResponse;
+                }
+            }
+            // 校验支付宝账号
+            if(!StringUtils.isEmpty(userUpdateDTO.getPayNo())){
+                if(!ValidUtil.validatePayNo(userUpdateDTO.getPayNo())){
+                    restfulResponse.setCode(-1);
+                    restfulResponse.setMsg("支付宝账号格式错误");
+                    return restfulResponse;
+                }
+            }
+            UserRequest userRequest = ConverterUserDTO.converterUserDTO(userId,userUpdateDTO);
+            User user = userService.updateUser(userRequest);
+            restfulResponse.setData(user);
+        }catch (ServiceException se) {
+            restfulResponse.setCode(ResCodeEnum.USER_EXISTS.getCode());
+            restfulResponse.setMsg(ResCodeEnum.USER_EXISTS.getMsg());
+            logger.catching(se);
+        } catch (Exception e) {
             restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
             restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
             logger.catching(e);

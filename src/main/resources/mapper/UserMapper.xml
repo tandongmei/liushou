@@ -188,7 +188,7 @@
             u.email,
             u.is_left_child isLeftChild,
             u.head_img headImg,
-            u.created_time createdTime
+            u.created_time createdTime,
             u.pay_no payNo
     from user u
     where 1 = 1

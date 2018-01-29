@@ -18,4 +18,6 @@ public interface IUserService {
 
     User getUser(UserQueryRequest userQueryRequest);
 
+    User updateUser(UserRequest userRequest);
+
 }
