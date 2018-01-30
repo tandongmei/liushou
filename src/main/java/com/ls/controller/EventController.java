@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.lang.management.MemoryUsage;
 import java.util.List;
 import java.util.Map;
 
@@ -107,17 +106,18 @@ public class EventController {
 
 
     @ApiOperation(value = "上传图片事件")
-    @PutMapping(value = "/upload")
-    public RestfulResponse upload(MultipartFile photo,Integer eventId){
+    @PostMapping(value = "/upload")
+    public RestfulResponse upload(MultipartFile photo){
         RestfulResponse restfulResponse = new RestfulResponse();
         try {
             String key = QiniuUtil.uploadFile(photo.getOriginalFilename(),photo.getBytes());
-            EventQueryRequest eventQueryRequest = new EventQueryRequest();
-            eventQueryRequest.setEventId(eventId);
-            Event event = eventService.getEvent(eventQueryRequest);
-            event.setEventImg(QiniuUtil.getUrl(key));//保存图片地址
+//            EventQueryRequest eventQueryRequest = new EventQueryRequest();
+//            eventQueryRequest.setEventId(eventId);
+//            Event event = eventService.getEvent(eventQueryRequest);
+//            event.setEventImg(QiniuUtil.getUrl(key));//保存图片地址
             //更新事件
-
+            String imgUrl = QiniuUtil.getUrl(key);
+            restfulResponse.setData(imgUrl);
         } catch (IOException e) {
             e.printStackTrace();
         }
