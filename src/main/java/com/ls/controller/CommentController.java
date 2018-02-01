@@ -2,6 +2,7 @@ package com.ls.controller;
 
 import com.ls.common.RestfulResponse;
 import com.ls.model.enm.ResCodeEnum;
+import com.ls.request.CommentQueryRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -19,11 +20,13 @@ import java.util.Map;
 @RequestMapping(value = "/api/comment")
 public class CommentController {
 
-    @ApiOperation(value = "根据文章id查询该文章所以评论")
+    @ApiOperation(value = "根据文章id查询该文章所有评论及其子评论")
     @RequestMapping(value = "{/id}")
     public RestfulResponse<Map<String,Object>> findCommentList(@PathVariable Integer EventId){
         RestfulResponse restfulResponse = new RestfulResponse();
         try{
+            CommentQueryRequest commentQueryRequest = new CommentQueryRequest();
+            commentQueryRequest.setEventId(EventId);
 
         }catch (Exception e){
             restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());

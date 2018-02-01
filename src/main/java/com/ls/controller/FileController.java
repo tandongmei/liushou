@@ -34,20 +34,20 @@ public class FileController {
     private static Logger logger = LogManager.getLogger(FileController.class);
 
     @Value("${qiniu.accessKey}")
-    private static String accessKey;
+    private String accessKey;
 
     @Value("${qiniu.secretKey}")
-    private static String secretKey;
+    private String secretKey;
 
     @Value("${qiniu.bucket}")
-    private static String bucket;
+    private String bucket;
 
     @ApiOperation(value = "图片上传")
     @PostMapping(value = "/upload")
     public RestfulResponse<String> upload(MultipartFile file) {
         RestfulResponse restfulResponse = new RestfulResponse();
         // 0.默认不指定key的情况下，以文件内容的hash值作为文件名
-        String key = null;
+        String key = file.getOriginalFilename();
         try {
             // 1.构造一个带指定Zone对象的配置类
             Configuration cfg = new Configuration(Zone.zone0());
