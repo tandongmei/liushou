@@ -17,9 +17,11 @@ public class Comment {
 
     private Date createdTime;
 
-//    private Integer parentId;
+    private Integer parentId;
 
-    private Comment comment; // 父评论
+    private User replayUser; // 评论者
+
+    private User replayCommentUser; // 回复评论的人
 
     private List<Comment> commentList; // 子评论
 
