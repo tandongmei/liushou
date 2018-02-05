@@ -10,6 +10,7 @@ import com.ls.service.IUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -43,6 +44,9 @@ public class UserServiceImpl implements IUserService{
         user = new User();
         bindUser(userRequest,user);
         user.setCreatedTime(new Date());
+        user.setGender("1");
+        user.setHeadImg("static/images/user/moren.jpg");
+        user.setIsLeftChild(1);
         userMapper.insertSelective(user);
         return user;
     }
@@ -56,8 +60,55 @@ public class UserServiceImpl implements IUserService{
         return user;
     }
 
+    @Override
+    public User updateUser(UserRequest userRequest) {
+        // 判断用户名是否存在
+        User user = userMapper.selectByPrimaryKey(userRequest.getUserId());
+        if(!user.getNickName().equals(userRequest.getNickName())){ // 说明用户昵称被修改
+            UserQueryRequest userQueryRequest = new UserQueryRequest();
+            userQueryRequest.setNickName(userRequest.getNickName());
+            User u = userMapper.getUser(userQueryRequest);
+            if(u != null){
+                // 用户已经存在
+                throw new ServiceException(ResCodeEnum.USER_EXISTS.getCode(),ResCodeEnum.USER_EXISTS.getMsg());
+            }
+        }
+        bindUser(userRequest,user);
+        userMapper.updateByPrimaryKey(user);
+        return user;
+    }
+
     private void bindUser(UserRequest userRequest,User user){
-        BeanUtils.copyProperties(userRequest,user);
+        if(!StringUtils.isEmpty(userRequest.getNickName())){
+            user.setNickName(userRequest.getNickName());
+        }
+        if(!StringUtils.isEmpty(userRequest.getPassword())){
+            user.setPassword(userRequest.getPassword());
+        }
+        if(!StringUtils.isEmpty(userRequest.getAge())){
+            user.setAge(userRequest.getAge());
+        }
+        if(!StringUtils.isEmpty(userRequest.getEmail())){
+            user.setEmail(userRequest.getEmail());
+        }
+        if(!StringUtils.isEmpty(userRequest.getTel())){
+            user.setTel(userRequest.getTel());
+        }
+        if(!StringUtils.isEmpty(userRequest.getGender())){
+            user.setGender(userRequest.getGender());
+        }
+        if(!StringUtils.isEmpty(userRequest.getHeadImg())){
+            user.setHeadImg(userRequest.getHeadImg());
+        }
+        if(!StringUtils.isEmpty(userRequest.getPayNo())){
+            user.setPayNo(userRequest.getPayNo());
+        }
+        if(!StringUtils.isEmpty(userRequest.getIsLeftChild())){
+            user.setIsLeftChild(userRequest.getIsLeftChild());
+        }
+        if(!StringUtils.isEmpty(userRequest.getName())){
+            user.setName(userRequest.getName());
+        }
     }
 
 }

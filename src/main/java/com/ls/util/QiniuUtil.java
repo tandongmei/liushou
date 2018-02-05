@@ -1,43 +1,19 @@
 package com.ls.util;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
- * @author:yuhang
- * @Date:2018/1/22
+ * Created by tan.dongmei on 2018/1/31
  */
-
-import com.google.gson.Gson;
-import com.qiniu.common.QiniuException;
-import com.qiniu.common.Zone;
-import com.qiniu.http.Response;
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.storage.model.DefaultPutRet;
-import com.qiniu.util.Auth;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.annotation.Resources;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-import java.util.UUID;
-
 public class QiniuUtil {
 
-    private static final String CONFIG_BUCKET="qiniu.bucket";
+    @Value("${qiniu.accessKey}")
+    private static String accessKey;
 
-    private static final String CONFIG_AK="qiniu.accesskey";
-    private static final String CONFIG_SK="qiniu.secretkey";
-    private static final String CONFIG_CDN="qiniu.cdns";
+    @Value("${qiniu.secretKey}")
+    private static String secretKey;
 
-    private static final Auth auth;
-    private static final UploadManager uploadManager;
-
-    private static final String bucketName;
-    private static final String cdn;
-
+<<<<<<< HEAD
     public static void main(String[] args) {
         QiniuUtil.uploadFile("image1.jpg","想和你旅行".getBytes());
     }
@@ -58,53 +34,14 @@ public class QiniuUtil {
        bucketName=properties.getProperty(CONFIG_BUCKET);
        cdn = properties.getProperty(CONFIG_CDN);
     }
-
-    public static String getToken(){
-        String upToken = auth.uploadToken(bucketName);//上传资源的token
-        return upToken;
-    }
-
-    public static String getKey(String fileName){
-        String key = fileName+ UUID.randomUUID().toString();//上传资源的token
-        return key;
-    }
+=======
+    @Value("${qiniu.bucket}")
+    private static String bucket;
+>>>>>>> c278adeb7b6e38879323d13fb3e91c03861a8174
 
 
-    /**
-     * 文件上传
-     * @param buf
-     * @return
-     */
-    public static String uploadFile(String fileName,byte[] buf){
-        //默认不指定key的情况下，以文件内容的hash值作为文件名
-        //指定了key
-        String key = getKey(fileName);
-        DefaultPutRet putRet = null;
-        try {
-            Response response = uploadManager.put(buf, key, getToken());
-            putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-        } catch (QiniuException e) {
-            e.printStackTrace();
-        }
-        return  putRet.key;
-    }
 
-    /**
-     * 得到图片的链接
-     * @param key
-     * @return
-     */
-    public static String getUrl(String key){
-        return "http://"+cdn+key;
-    }
 
-    /**
-     * 得到各种大小图片的链接
-     * @param key
-     * @param modelSize 图片大小
-     * @return
-     */
-    public static String getModelUrl(String key,String modelSize){
-        return "http://"+cdn+key+"?"+modelSize;
-    }
+
+
 }
