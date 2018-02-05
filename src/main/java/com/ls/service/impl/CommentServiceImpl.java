@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class CommentServiceImpl implements ICommentService {
 
-   
+
     public List<Comment> getCommentList(CommentQueryRequest commentQueryRequest) {
         return null;
     }
