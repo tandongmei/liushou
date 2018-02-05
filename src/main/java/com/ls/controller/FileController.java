@@ -34,13 +34,13 @@ public class FileController {
     private static Logger logger = LogManager.getLogger(FileController.class);
 
     @Value("${qiniu.accessKey}")
-    private  String accessKey;
+    private String accessKey;
 
     @Value("${qiniu.secretKey}")
-    private  String secretKey;
+    private String secretKey;
 
     @Value("${qiniu.bucket}")
-    private  String bucket;
+    private String bucket;
 
     @ApiOperation(value = "图片上传")
     @PostMapping(value = "/upload")
