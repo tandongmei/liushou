@@ -38,11 +38,14 @@ public class QiniuUtil {
     private static final String bucketName;
     private static final String cdn;
 
+    public static void main(String[] args) {
+        QiniuUtil.uploadFile("image1.jpg","想和你旅行".getBytes());
+    }
     /**
      * 从外部文件中初始化七牛存储相关的配置信息
      */
     static{
-       InputStream inputStream =QiniuUtil.class.getResourceAsStream("application.properties") ;
+       InputStream inputStream =QiniuUtil.class.getClassLoader().getResourceAsStream("application.properties") ;
        Properties properties=new Properties();
        try {
             properties.load(inputStream);

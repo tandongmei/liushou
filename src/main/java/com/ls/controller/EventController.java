@@ -115,7 +115,7 @@ public class EventController {
             EventQueryRequest eventQueryRequest = new EventQueryRequest();
             eventQueryRequest.setEventId(eventId);
             Event event = eventService.getEvent(eventQueryRequest);
-            event.setEventImg(QiniuUtil.getUrl(key));//保存图片地址
+            event.setEventImg(key);//保存图片地址
             //更新事件
 
         } catch (IOException e) {
