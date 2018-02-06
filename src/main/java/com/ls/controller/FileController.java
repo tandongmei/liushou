@@ -22,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * Created by tan.dongmei on 2018/1/30
@@ -73,5 +74,52 @@ public class FileController {
             logger.catching(e);
         }
         return restfulResponse;
+    }
+
+
+    /**
+     * 上传头像到七牛云
+     * @param photo
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/upload2")
+    public String upload2(MultipartFile photo,HttpServletRequest request){
+
+        try {
+            //构造一个带指定Zone对象的配置类
+            Configuration cfg = new Configuration(Zone.zone0());
+            UploadManager uploadManager = new UploadManager(cfg);
+
+            //...生成上传凭证，然后准备上传
+            String accessKey = "SUfaFnSfKTlyMvQyQNziYVkcPuQY_rPS2OL7giGc";
+            String secretKey = "TeqYGlp3fNVaoiDibj_6Tphd4Mvhn52CCd6MFxUc";
+            String bucket = "dity";
+
+//默认不指定key的情况下，以文件内容的hash值作为文件名
+            String key = photo.getOriginalFilename();
+
+            Auth auth = Auth.create(accessKey, secretKey);
+            String upToken = auth.uploadToken(bucket);//上传资源的token
+            //FileInputStream inputStream=new FileInputStream(file);
+            try {
+                Response response = uploadManager.put(photo.getBytes(), key, upToken);
+                //解析上传成功的结果
+                DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
+            } catch (QiniuException ex) {
+                Response r = ex.response;
+                System.err.println(r.toString());
+                try {
+                    System.err.println(r.bodyString());
+                } catch (QiniuException ex2) {
+                    //ignore
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        return "redirect:user/list";
     }
 }

@@ -10,6 +10,7 @@ import com.ls.request.EventQueryRequest;
 import com.ls.request.EventRequest;
 import com.ls.service.IEventService;
 import com.ls.util.QiniuUtilOld;
+import com.ls.util.ThumbModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -116,8 +117,10 @@ public class EventController {
 //            Event event = eventService.getEvent(eventQueryRequest);
 //            event.setEventImg(QiniuUtilOld.getUrl(key));//保存图片地址
             //更新事件
-            String imgUrl = QiniuUtilOld.getUrl(key);
-            restfulResponse.setData(imgUrl);
+            String imgUrl = QiniuUtilOld.getModelUrl(key, ThumbModel.getThum(1024));
+            System.out.println(imgUrl);
+            //http://p2ygtzd28.bkt.clouddn.com/JZYY-2382-2.pngd35291ee-2180-4655-961c-778a1aeadd68
+            restfulResponse.setData(key);
         } catch (Exception e) {
             e.printStackTrace();
         }

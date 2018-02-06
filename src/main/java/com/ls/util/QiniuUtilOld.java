@@ -57,7 +57,7 @@ public class QiniuUtilOld {
     }
 
     public static String getKey(String fileName){
-        String key = fileName+ UUID.randomUUID().toString();//上传资源的token
+        String key = fileName+"."+ UUID.randomUUID().toString().replace("-","");//上传资源的token
         return key;
     }
 
@@ -87,7 +87,7 @@ public class QiniuUtilOld {
      * @return
      */
     public static String getUrl(String key){
-        return "http://"+cdn+key;
+        return "http://"+cdn+"/"+key;
     }
 
     /**
@@ -97,6 +97,6 @@ public class QiniuUtilOld {
      * @return
      */
     public static String getModelUrl(String key,String modelSize){
-        return "http://"+cdn+key+"?"+modelSize;
+        return "http://"+cdn+"/"+key+"?"+modelSize;
     }
 }
