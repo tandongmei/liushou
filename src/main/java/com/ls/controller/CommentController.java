@@ -1,6 +1,7 @@
 package com.ls.controller;
 
 import com.ls.common.RestfulResponse;
+import com.ls.dto.CommentDTO;
 import com.ls.model.Comment;
 import com.ls.model.enm.ResCodeEnum;
 import com.ls.request.CommentQueryRequest;
@@ -10,10 +11,8 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,6 +38,21 @@ public class CommentController {
             commentQueryRequest.setEventId(EventId);
             List<Comment> commentList = commentService.getCommentList(commentQueryRequest);
             restfulResponse.setData(commentList);
+        }catch (Exception e){
+            restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
+            restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
+            logger.catching(e);
+            return restfulResponse;
+        }
+        return restfulResponse;
+    }
+
+    @ApiOperation(value = "添加评论或回复")
+    @PutMapping(value = "")
+    public RestfulResponse createComment(@RequestBody CommentDTO commentDTO, BindingResult result){
+        RestfulResponse restfulResponse = new RestfulResponse();
+        try{
+
         }catch (Exception e){
             restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
             restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());

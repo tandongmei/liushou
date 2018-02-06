@@ -141,4 +141,22 @@ public class User {
     public void setPayNo(String payNo) {
         this.payNo = payNo == null ? null : payNo.trim();
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", nickName='" + nickName + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                ", tel='" + tel + '\'' +
+                ", email='" + email + '\'' +
+                ", isLeftChild=" + isLeftChild +
+                ", headImg='" + headImg + '\'' +
+                ", createdTime=" + createdTime +
+                ", payNo='" + payNo + '\'' +
+                '}';
+    }
 }

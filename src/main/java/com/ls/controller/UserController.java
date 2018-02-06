@@ -63,7 +63,7 @@ public class UserController {
     }
     @ApiOperation(value = "用户注册")
     @PostMapping(value = "")
-    public RestfulResponse<User> createAdministrator(@RequestBody @Valid UserDTO userDTO, BindingResult result) {
+    public RestfulResponse<User> createAdministrator(@RequestBody @Valid UserDTO userDTO, BindingResult result,HttpServletRequest request) {
         RestfulResponse restfulResponse = new RestfulResponse();
         try {
             if (result.hasErrors()) {
@@ -95,6 +95,9 @@ public class UserController {
             UserRequest userRequest = ConverterUserDTO.converterUserDTO(userDTO);
             User user = userService.createUser(userRequest);
             restfulResponse.setData(user);
+            // 注册成功后信息保存在session
+            request.getSession().setAttribute("userInfo",user);
+            System.out.println("注册，后台session："+request.getSession().getAttribute("userInfo").toString());
         }catch (ServiceException se) {
             restfulResponse.setCode(ResCodeEnum.USER_EXISTS.getCode());
             restfulResponse.setMsg(ResCodeEnum.USER_EXISTS.getMsg());
@@ -125,7 +128,8 @@ public class UserController {
             }
             restfulResponse.setData(user);
             // 登陆信息保存在session
-//            request.getSession().setAttribute("userSignIn",user.getNickName());
+            request.getSession().setAttribute("userInfo",user);
+            System.out.println("登陆，后台session："+request.getSession().getAttribute("userInfo").toString());
         }catch (ServiceException se){
             restfulResponse.setCode(se.getCode());
             restfulResponse.setMsg(se.getMessage());
@@ -140,7 +144,7 @@ public class UserController {
 
     @ApiOperation(value = "修改资料")
     @PutMapping(value = "/{id}")
-    public RestfulResponse<User> update(@PathVariable(value = "id") Integer userId, @RequestBody @Valid UserUpdateDTO userUpdateDTO, BindingResult result){
+    public RestfulResponse<User> update(@PathVariable(value = "id") Integer userId, @RequestBody @Valid UserUpdateDTO userUpdateDTO, BindingResult result,HttpServletRequest request){
         RestfulResponse restfulResponse = new RestfulResponse();
         try {
             if (result.hasErrors()) {
@@ -176,6 +180,9 @@ public class UserController {
             UserRequest userRequest = ConverterUserDTO.converterUserDTO(userId,userUpdateDTO);
             User user = userService.updateUser(userRequest);
             restfulResponse.setData(user);
+            // 修改成功后用户信息保存在session
+            request.getSession().setAttribute("userInfo",user);
+            System.out.println("修改，后台session："+request.getSession().getAttribute("userInfo").toString());
         }catch (ServiceException se) {
             restfulResponse.setCode(ResCodeEnum.USER_EXISTS.getCode());
             restfulResponse.setMsg(ResCodeEnum.USER_EXISTS.getMsg());

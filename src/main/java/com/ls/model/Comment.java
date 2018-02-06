@@ -25,4 +25,6 @@ public class Comment {
 
     private List<Comment> commentList; // 子评论
 
+    private Integer isShow;
+
 }
