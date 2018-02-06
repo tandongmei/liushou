@@ -4,7 +4,6 @@ import com.ls.model.Comment;
 import com.ls.request.CommentQueryRequest;
 
 import java.util.List;
-import java.util.Map;
 
 public interface CommentMapper {
     int deleteByPrimaryKey(Integer commentId);

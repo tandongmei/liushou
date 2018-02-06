@@ -9,10 +9,11 @@
       <arg column="replay_content" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="parent_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="is_show" jdbcType="INTEGER" javaType="java.lang.Integer" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    comment_id, event_id, replay_user_id, replay_content, created_time, parent_id
+    comment_id, event_id, replay_user_id, replay_content, created_time, parent_id, is_show
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -26,11 +27,11 @@
   </delete>
   <insert id="insert" parameterType="com.ls.model.Comment" >
     insert into comment (comment_id, event_id, replay_user_id, 
-      replay_content, created_time, parent_id
-      )
+      replay_content, created_time, parent_id, 
+      is_show)
     values (#{commentId,jdbcType=INTEGER}, #{eventId,jdbcType=INTEGER}, #{replayUserId,jdbcType=INTEGER}, 
-      #{replayContent,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{parentId,jdbcType=INTEGER}
-      )
+      #{replayContent,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{parentId,jdbcType=INTEGER}, 
+      #{isShow,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.ls.model.Comment" >
     insert into comment
@@ -53,6 +54,9 @@
       <if test="parentId != null" >
         parent_id,
       </if>
+      <if test="isShow != null" >
+        is_show,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="commentId != null" >
@@ -72,6 +76,9 @@
       </if>
       <if test="parentId != null" >
         #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -93,6 +100,9 @@
       <if test="parentId != null" >
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
+      <if test="isShow != null" >
+        is_show = #{isShow,jdbcType=INTEGER},
+      </if>
     </set>
     where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
@@ -102,31 +112,34 @@
       replay_user_id = #{replayUserId,jdbcType=INTEGER},
       replay_content = #{replayContent,jdbcType=VARCHAR},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
-      parent_id = #{parentId,jdbcType=INTEGER}
+      parent_id = #{parentId,jdbcType=INTEGER},
+      is_show = #{isShow,jdbcType=INTEGER}
     where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
   <select id="findParentCommentsByEventId"  parameterType="com.ls.request.CommentQueryRequest" resultType="com.ls.model.Comment">
     select c.comment_id commentId,
-            c.event_id eventId,
-            c.replay_user_id replayUserId,
-            c.replay_content replayContent,
-            c.created_time createdTime,
-            c.parent_id parentId
-      from `comment` c
-      LEFT JOIN event e
-      on c.event_id = e.event_id
-      where c.parent_id = 0
-	  and e.event_id = #{eventId}
-	  order BY c.created_time desc
+    c.event_id eventId,
+    c.replay_user_id replayUserId,
+    c.replay_content replayContent,
+    c.created_time createdTime,
+    c.parent_id parentId,
+    c.is_show isShow
+    from `comment` c
+    LEFT JOIN event e
+    on c.event_id = e.event_id
+    where c.parent_id = 0
+    and e.event_id = #{eventId}
+    order BY c.created_time desc
   </select>
   <select id="findReplayCommentsByCommentId" parameterType="com.ls.request.CommentQueryRequest" resultType="com.ls.model.Comment">
     select c.comment_id commentId,
-            c.event_id eventId,
-            c.replay_user_id replayUserId,
-            c.replay_content replayContent,
-            c.created_time created_time,
-            c.parent_id parentId
-      from `comment` c
-      WHERE c.parent_id = #{commentId}
+    c.event_id eventId,
+    c.replay_user_id replayUserId,
+    c.replay_content replayContent,
+    c.created_time created_time,
+    c.parent_id parentId,
+    c.is_show isShow
+    from `comment` c
+    WHERE c.parent_id = #{commentId}
   </select>
 </mapper>
