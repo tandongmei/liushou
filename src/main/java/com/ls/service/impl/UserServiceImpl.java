@@ -45,7 +45,7 @@ public class UserServiceImpl implements IUserService{
         bindUser(userRequest,user);
         user.setCreatedTime(new Date());
         user.setGender("1");
-        user.setHeadImg("static/images/user/moren.jpg");
+        user.setHeadImg("http://p3ga0tg9o.bkt.clouddn.com/moren.jpg.370a334669494deb8eca9ffd00e716a4"); // 设置默认头像
         user.setIsLeftChild(1);
         userMapper.insertSelective(user);
         return user;
