@@ -19,11 +19,11 @@ public class Comment {
 
     private Integer parentId;
 
-    private User replayUser; // 评论者
+    private User replayUser; // 回复人
 
-    private User replayCommentUser; // 回复评论的人
+    private User replayCommentUser; // 被回复的那个人
 
-    private List<Comment> commentList; // 子评论
+    private List<Comment> commentList; //回复的后代回复
 
     private Integer isShow;
 

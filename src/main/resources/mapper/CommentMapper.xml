@@ -142,4 +142,33 @@
     from `comment` c
     WHERE c.parent_id = #{commentId}
   </select>
+
+  <select id="getCommentByEventId" parameterType="int" resultType="com.ls.model.Comment">
+    select
+     c.comment_id commentId,
+    c.event_id eventId,
+    c.replay_user_id replayUserId,
+    c.replay_content replayContent,
+    c.created_time created_time,
+    c.parent_id parentId,
+    c.is_show isShow
+    from comment c
+    where c.event_id=#{eventId}
+    order BY c.created_time desc
+  </select>
+
+  <select id="getAllComment"  resultType="com.ls.model.Comment">
+    select
+     c.comment_id commentId,
+    c.event_id eventId,
+    c.replay_user_id replayUserId,
+    c.replay_content replayContent,
+    c.created_time created_time,
+    c.parent_id parentId,
+    c.is_show isShow
+
+    from comment c
+    order BY c.created_time desc
+  </select>
+
 </mapper>

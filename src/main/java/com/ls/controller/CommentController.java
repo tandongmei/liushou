@@ -36,7 +36,11 @@ public class CommentController {
         try{
             CommentQueryRequest commentQueryRequest = new CommentQueryRequest();
             commentQueryRequest.setEventId(EventId);
-            List<Comment> commentList = commentService.getCommentList(commentQueryRequest);
+            //List<Comment> commentList = commentService.getCommentList(commentQueryRequest);
+            long startTime =System.currentTimeMillis();
+            List<Comment> commentList = commentService.getAllCommentList(EventId);
+            long endTime=System.currentTimeMillis();
+            System.out.println("时间是:"+(endTime-startTime));
             restfulResponse.setData(commentList);
         }catch (Exception e){
             restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
