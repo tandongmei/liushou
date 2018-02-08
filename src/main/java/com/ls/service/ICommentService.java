@@ -10,12 +10,12 @@ import java.util.List;
  */
 public interface ICommentService {
 
-    List<Comment> getCommentList(CommentQueryRequest commentQueryRequest);
-
     /**
      * 得到该事件下的所有回复 按照顺序输出
      * @param eventId
      * @return
      */
     List<Comment> getAllCommentList(Integer eventId);
+
+    int getCommentCount(Integer eventId);
 }

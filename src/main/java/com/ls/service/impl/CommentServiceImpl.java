@@ -8,6 +8,7 @@ import com.ls.model.Event;
 import com.ls.model.User;
 import com.ls.request.CommentQueryRequest;
 import com.ls.service.ICommentService;
+import com.ls.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,38 +41,6 @@ public class CommentServiceImpl implements ICommentService {
         this.allComments = allComments;
     }
 
-    public List<Comment> getCommentList(CommentQueryRequest commentQueryRequest) {
-        // 1.根据文章id查出所有相关的父评论
-        List<Comment> commentList = commentMapper.findParentCommentsByEventId(commentQueryRequest); // 张三 event_id=1
-        // 2.循环遍历父评论
-        for(Comment comment : commentList){
-            // 3.根据评论人id查找评论人信息
-            User user = userMapper.selectByPrimaryKey(comment.getReplayUserId());
-            comment.setReplayUser(user); // 张三
-            // 4.实例化回复的集合
-            List<Comment> replays = new ArrayList<>();
-            comment.setCommentList(replays);
-            buildCommentReplay(comment,replays); // 构建评论与回复的消息
-        }
-        return commentList;
-    }
-
-    private void buildCommentReplay(Comment comment, List<Comment> replays) {
-         // 5.找出parent_id是父评论id的子评论集合
-            CommentQueryRequest cqr = new CommentQueryRequest();
-            cqr.setCommentId(comment.getCommentId()); // 张三 comment_id = 1
-            List<Comment> replayList = commentMapper.findReplayCommentsByCommentId(cqr);
-            replays.addAll(replayList);
-            for(Comment c : replayList){
-                // 设置回复人信息
-                c.setReplayUser(userMapper.selectByPrimaryKey(c.getReplayUserId()));
-                // 设置评论人信息
-                c.setReplayCommentUser((userMapper.selectByPrimaryKey(comment.getReplayUserId())));
-                buildCommentReplay(c,replays);
-            }
-    }
-
-
     /**
      * 遍历所有的回复 按照楼层以及后代回复
      */
@@ -88,6 +57,8 @@ public class CommentServiceImpl implements ICommentService {
             //设置被回复人 就是发起事件的人
             Event event = eventMapper.selectByPrimaryKey(eventId);
             comment.setReplayCommentUser((userMapper.selectByPrimaryKey(event.getUserId())));
+            // 设置returnTime
+//            comment.setReturnTime(TimeUtil.natureTime(comment.getCreatedTime()));
 
             resultList.add(comment);
             //该楼层下的后代回复
@@ -95,6 +66,13 @@ public class CommentServiceImpl implements ICommentService {
             comment.setCommentList(sun);
         }
         return resultList;
+    }
+
+    @Override
+    public int getCommentCount(Integer eventId) {
+        int count = commentMapper.getAllCommentCount(eventId);
+
+        return count;
     }
 
     /**
@@ -110,6 +88,9 @@ public class CommentServiceImpl implements ICommentService {
                 comment.setReplayUser(userMapper.selectByPrimaryKey(comment.getReplayUserId()));
                 //设置被回复人
                 comment.setReplayCommentUser(userMapper.selectByPrimaryKey(userId));
+                // 设置returnTime
+                comment.setReturnTime(TimeUtil.natureTime(comment.getCreatedTime()));
+
                 result.add(comment);
                 List<Comment> comments = getCommentByTop(comment.getReplayUserId(),comment.getCommentId());
                 if (comments.size() > 0) {

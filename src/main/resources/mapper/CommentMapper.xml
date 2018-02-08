@@ -149,7 +149,7 @@
     c.event_id eventId,
     c.replay_user_id replayUserId,
     c.replay_content replayContent,
-    c.created_time created_time,
+    c.created_time createdTime,
     c.parent_id parentId,
     c.is_show isShow
     from comment c
@@ -163,12 +163,17 @@
     c.event_id eventId,
     c.replay_user_id replayUserId,
     c.replay_content replayContent,
-    c.created_time created_time,
+    c.created_time createdTime,
     c.parent_id parentId,
     c.is_show isShow
 
     from comment c
     order BY c.created_time desc
+  </select>
+  <select id="getAllCommentCount" parameterType="int" resultType="int">
+    select count(*)
+    from comment c
+    where c.event_id = #{eventId}
   </select>
 
 </mapper>

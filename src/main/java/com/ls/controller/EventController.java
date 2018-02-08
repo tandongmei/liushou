@@ -9,7 +9,6 @@ import com.ls.model.enm.ResCodeEnum;
 import com.ls.request.EventQueryRequest;
 import com.ls.request.EventRequest;
 import com.ls.service.IEventService;
-import com.ls.util.QiniuUtilOld;
 import com.ls.util.ThumbModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -67,9 +66,7 @@ public class EventController {
     public RestfulResponse<Event> getEvent(@PathVariable Integer eventId){
            RestfulResponse restfulResponse = new RestfulResponse();
            try{
-               EventQueryRequest eventQueryRequest = new EventQueryRequest();
-               eventQueryRequest.setEventId(eventId);
-               Event event = eventService.getEvent(eventQueryRequest);
+               Event event = eventService.getEvent(eventId);
                restfulResponse.setData(event);
            }catch (ServiceException se){
                restfulResponse.setCode(ResCodeEnum.EVENT_EMPTY.getCode());
@@ -111,16 +108,6 @@ public class EventController {
         RestfulResponse restfulResponse = new RestfulResponse();
         try {
 
-            String key = QiniuUtilOld.uploadFile(photo.getOriginalFilename(),photo.getBytes());
-//            EventQueryRequest eventQueryRequest = new EventQueryRequest();
-//            eventQueryRequest.setEventId(eventId);
-//            Event event = eventService.getEvent(eventQueryRequest);
-//            event.setEventImg(QiniuUtilOld.getUrl(key));//保存图片地址
-            //更新事件
-            String imgUrl = QiniuUtilOld.getModelUrl(key, ThumbModel.getThum(1024));
-            System.out.println(imgUrl);
-            //http://p2ygtzd28.bkt.clouddn.com/JZYY-2382-2.pngd35291ee-2180-4655-961c-778a1aeadd68
-            restfulResponse.setData(key);
         } catch (Exception e) {
             e.printStackTrace();
         }

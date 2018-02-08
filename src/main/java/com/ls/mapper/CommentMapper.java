@@ -25,4 +25,6 @@ public interface CommentMapper {
     List<Comment> getCommentByEventId(Integer eventId);
 
     List<Comment> getAllComment();
+
+    int getAllCommentCount(Integer eventId);
 }
