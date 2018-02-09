@@ -162,4 +162,17 @@
       and u.is_left_child = #{isLeftChild}
     </if>
   </select>
+
+  <select id="getEvent" parameterType="int" resultType="com.ls.model.Event">
+    select e.event_id eventId,
+            e.user_id userId,
+            e.title,
+            e.content,
+            e.event_img eventImg,
+            e.flag,
+            e.host_id hostId,
+            e.created_time createdTime
+    from event e
+    where e.event_id = #{eventId}
+  </select>
 </mapper>

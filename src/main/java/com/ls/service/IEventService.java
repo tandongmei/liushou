@@ -14,7 +14,7 @@ public interface IEventService {
 
     List<Map<Object,String>> findEventList(EventQueryRequest eventQueryRequest);
 
-    Event getEvent(EventQueryRequest eventQueryRequest);
+    Event getEvent(Integer eventId);
 
     void create(EventRequest eventRequest);
 

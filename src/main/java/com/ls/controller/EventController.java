@@ -9,7 +9,6 @@ import com.ls.model.enm.ResCodeEnum;
 import com.ls.request.EventQueryRequest;
 import com.ls.request.EventRequest;
 import com.ls.service.IEventService;
-import com.ls.util.QiniuUtilOld;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -66,9 +65,7 @@ public class EventController {
     public RestfulResponse<Event> getEvent(@PathVariable Integer eventId){
            RestfulResponse restfulResponse = new RestfulResponse();
            try{
-               EventQueryRequest eventQueryRequest = new EventQueryRequest();
-               eventQueryRequest.setEventId(eventId);
-               Event event = eventService.getEvent(eventQueryRequest);
+               Event event = eventService.getEvent(eventId);
                restfulResponse.setData(event);
            }catch (ServiceException se){
                restfulResponse.setCode(ResCodeEnum.EVENT_EMPTY.getCode());
@@ -109,14 +106,7 @@ public class EventController {
     public RestfulResponse upload(MultipartFile photo){
         RestfulResponse restfulResponse = new RestfulResponse();
         try {
-            String key = QiniuUtilOld.uploadFile(photo.getOriginalFilename(),photo.getBytes());
-//            EventQueryRequest eventQueryRequest = new EventQueryRequest();
-//            eventQueryRequest.setEventId(eventId);
-//            Event event = eventService.getEvent(eventQueryRequest);
-//            event.setEventImg(QiniuUtilOld.getUrl(key));//保存图片地址
-            //更新事件
-            String imgUrl = QiniuUtilOld.getUrl(key);
-            restfulResponse.setData(imgUrl);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

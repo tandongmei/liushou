@@ -21,4 +21,10 @@ public interface CommentMapper {
     List<Comment> findParentCommentsByEventId(CommentQueryRequest commentQueryRequest);
 
     List<Comment> findReplayCommentsByCommentId(CommentQueryRequest cqr);
+
+    List<Comment> getCommentByEventId(Integer eventId);
+
+    List<Comment> getAllComment();
+
+    int getAllCommentCount(Integer eventId);
 }
