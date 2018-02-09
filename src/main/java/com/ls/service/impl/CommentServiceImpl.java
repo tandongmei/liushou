@@ -1,18 +1,19 @@
 package com.ls.service.impl;
 
+import com.ls.request.CommentRequest;
 import com.ls.mapper.CommentMapper;
 import com.ls.mapper.EventMapper;
 import com.ls.mapper.UserMapper;
 import com.ls.model.Comment;
 import com.ls.model.Event;
-import com.ls.model.User;
-import com.ls.request.CommentQueryRequest;
 import com.ls.service.ICommentService;
 import com.ls.util.TimeUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -71,9 +72,16 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public int getCommentCount(Integer eventId) {
         int count = commentMapper.getAllCommentCount(eventId);
-
         return count;
     }
+
+    @Override
+    public void createComment(CommentRequest commentRequest) {
+        Comment comment = bindComment(commentRequest);
+        commentMapper.insert(comment);
+    }
+
+
 
     /**
      * 查询该回复下的后代回复
@@ -128,7 +136,13 @@ public class CommentServiceImpl implements ICommentService {
         return result;
     }
 
-
+    private Comment bindComment(CommentRequest commentRequest) {
+        Comment comment = new Comment();
+        BeanUtils.copyProperties(commentRequest,comment);
+        comment.setIsShow(0);
+        comment.setCreatedTime(new Date());
+        return comment;
+    }
 
 
 }

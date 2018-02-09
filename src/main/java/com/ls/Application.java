@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 
 
 @MapperScan(basePackages = "com.ls.mapper")
-//@ComponentScan(basePackages = {"com.ls"})
 @ComponentScan(basePackages = "com.ls")
 @SpringBootApplication
 public class Application {

@@ -1,7 +1,7 @@
 package com.ls.service;
 
+import com.ls.request.CommentRequest;
 import com.ls.model.Comment;
-import com.ls.request.CommentQueryRequest;
 
 import java.util.List;
 
@@ -18,4 +18,6 @@ public interface ICommentService {
     List<Comment> getAllCommentList(Integer eventId);
 
     int getCommentCount(Integer eventId);
+
+    void createComment(CommentRequest commentRequest);
 }
