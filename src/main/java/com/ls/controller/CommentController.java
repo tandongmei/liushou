@@ -3,6 +3,7 @@ package com.ls.controller;
 import com.ls.common.RestfulResponse;
 import com.ls.converter.ConverterCommentDTO;
 import com.ls.dto.CommentDTO;
+import com.ls.interceptor.Access;
 import com.ls.mapper.UserMapper;
 import com.ls.model.Comment;
 import com.ls.model.User;
@@ -59,6 +60,7 @@ public class CommentController {
     }
 
     @ApiOperation(value = "添加评论或回复")
+    @Access
     @PutMapping(value = "")
     public RestfulResponse createComment(@RequestBody @Validated CommentDTO commentDTO, BindingResult result, HttpServletRequest request){
         RestfulResponse restfulResponse = new RestfulResponse();

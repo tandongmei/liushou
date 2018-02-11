@@ -4,6 +4,7 @@ import com.ls.common.RestfulResponse;
 import com.ls.converter.ConverterEventDTO;
 import com.ls.dto.EventDTO;
 import com.ls.exception.ServiceException;
+import com.ls.interceptor.Access;
 import com.ls.model.Event;
 import com.ls.model.enm.ResCodeEnum;
 import com.ls.request.EventQueryRequest;
@@ -80,6 +81,7 @@ public class EventController {
     }
 
     @ApiOperation(value = "新增事件")
+    @Access
     @PutMapping(value = "")
     public RestfulResponse create(@RequestBody @Validated EventDTO eventDTO, BindingResult result){
         RestfulResponse restfulResponse = new RestfulResponse();
@@ -99,20 +101,5 @@ public class EventController {
         }
         return restfulResponse;
     }
-
-
-    @ApiOperation(value = "上传图片事件")
-    @PostMapping(value = "/upload")
-    public RestfulResponse upload(MultipartFile photo){
-        RestfulResponse restfulResponse = new RestfulResponse();
-        try {
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return restfulResponse;
-    }
-
-
 
 }

@@ -1,6 +1,7 @@
 package com.ls.controller;
 
 import com.ls.common.RestfulResponse;
+import com.ls.interceptor.Access;
 import com.ls.model.enm.ResCodeEnum;
 import com.ls.util.QiniuUtil;
 import com.ls.util.ThumbModel;
@@ -28,6 +29,7 @@ public class FileController {
     private static Logger logger = LogManager.getLogger(FileController.class);
 
     @ApiOperation(value = "图片上传")
+    @Access
     @PostMapping(value = "")
     public RestfulResponse<String> upload(MultipartFile file) {
         RestfulResponse restfulResponse = new RestfulResponse();
@@ -52,6 +54,7 @@ public class FileController {
     }
 
     @ApiOperation(value = "获取token值")
+    @Access
     @GetMapping(value = "")
     public RestfulResponse getToken() {
         RestfulResponse restfulResponse = new RestfulResponse();

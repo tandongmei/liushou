@@ -5,6 +5,7 @@ import com.ls.converter.ConverterUserDTO;
 import com.ls.dto.UserDTO;
 import com.ls.dto.UserUpdateDTO;
 import com.ls.exception.ServiceException;
+import com.ls.interceptor.Access;
 import com.ls.model.User;
 import com.ls.model.enm.ResCodeEnum;
 import com.ls.request.UserQueryRequest;
@@ -143,6 +144,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "修改资料")
+    @Access
     @PutMapping(value = "/{id}")
     public RestfulResponse<User> update(@PathVariable(value = "id") Integer userId, @RequestBody @Valid UserUpdateDTO userUpdateDTO, BindingResult result,HttpServletRequest request){
         RestfulResponse restfulResponse = new RestfulResponse();
