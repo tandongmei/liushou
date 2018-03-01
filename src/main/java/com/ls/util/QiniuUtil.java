@@ -34,7 +34,7 @@ public class QiniuUtil {
      * 从外部文件中初始化七牛存储相关的配置信息
      */
     static{
-        InputStream inputStream =QiniuUtilOld.class.getClassLoader().getResourceAsStream("application.properties") ;
+        InputStream inputStream =QiniuUtil.class.getClassLoader().getResourceAsStream("application.properties") ;
         Properties properties=new Properties();
         try {
             properties.load(inputStream);

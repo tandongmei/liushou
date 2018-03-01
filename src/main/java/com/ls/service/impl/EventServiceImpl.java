@@ -7,6 +7,7 @@ import com.ls.model.enm.ResCodeEnum;
 import com.ls.request.EventQueryRequest;
 import com.ls.request.EventRequest;
 import com.ls.service.IEventService;
+import com.ls.util.TimeUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,11 +31,12 @@ public class EventServiceImpl implements IEventService {
     }
 
     @Override
-    public Event getEvent(EventQueryRequest eventQueryRequest) {
-        Event event = eventMapper.selectByPrimaryKey(eventQueryRequest.getEventId());
+    public Event getEvent(Integer eventId) {
+        Event event = eventMapper.getEvent(eventId);
         if(event == null){
             throw new ServiceException(ResCodeEnum.EVENT_EMPTY.getCode(),ResCodeEnum.EVENT_EMPTY.getMsg());
         }
+        event.setReturnTime(TimeUtil.dateToStr(event.getCreatedTime()));
         return event;
     }
 

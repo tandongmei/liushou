@@ -27,4 +27,6 @@ public class Comment {
 
     private Integer isShow;
 
+    private String returnTime;
+
 }

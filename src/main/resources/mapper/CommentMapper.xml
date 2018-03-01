@@ -170,5 +170,10 @@
     from comment c
     order BY c.created_time desc
   </select>
+  <select id="getAllCommentCount" parameterType="int" resultType="int">
+    select count(*)
+    from comment c
+    where c.event_id = #{eventId}
+  </select>
 
 </mapper>

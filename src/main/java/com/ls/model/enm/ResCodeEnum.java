@@ -10,8 +10,11 @@ public enum ResCodeEnum {
     //user
     USER_EMPTY(1001, "用户不存在"),
     USER_EXISTS(1002, "用户名已经存在"),
+    USER_NOT_LIGIN(1003,"用户未登录"),
     //event
-    EVENT_EMPTY(2001,"详情查询异常");
+    EVENT_EMPTY(2001,"详情查询异常"),
+    //session
+    SESSION_TIME_OUT(-1,"会话过期");
 
     private int code;
     private String msg;
