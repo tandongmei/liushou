@@ -6,11 +6,14 @@ import com.ls.dto.CommentDTO;
 import com.ls.interceptor.Access;
 import com.ls.mapper.UserMapper;
 import com.ls.model.Comment;
+import com.ls.model.Event;
 import com.ls.model.User;
 import com.ls.model.enm.ResCodeEnum;
 import com.ls.request.CommentRequest;
 import com.ls.request.UserQueryRequest;
 import com.ls.service.ICommentService;
+import com.ls.service.IEventService;
+import com.ls.vo.CommentVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
@@ -22,6 +25,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -38,17 +42,35 @@ public class CommentController {
     private ICommentService commentService;
 
     @Autowired
+    private IEventService eventService;
+
+    @Autowired
     private UserMapper userMapper;
 
 
     @ApiOperation(value = "根据文章id查询该文章所有评论及其子评论")
     @GetMapping(value = "/{EventId}")
-    public RestfulResponse<List<Comment>> findCommentList(@PathVariable Integer EventId){
+    public RestfulResponse<List<Comment>> findCommentList(@PathVariable Integer EventId, HttpSession session){
         RestfulResponse restfulResponse = new RestfulResponse();
         try{
+            Event event = eventService.getEvent(EventId);
+            //得到子评论
             List<Comment> commentList = commentService.getAllCommentList(EventId);
+
+            User user = (User) session.getAttribute("userInfo");
+            CommentVo commentVo=new CommentVo();
+            //修改登录用户该事件下的所有未读的评论为已读
+            if(user!=null && user.getUserId()==event.getUserId()
+                    && commentList.size()>0 && commentList.get(0)!=null && 0==commentList.get(0).getReadFlag()){
+                commentService.batchUpdate(eventId);
+                user.setNoReadCommentCount(commentService.getNoReadCommentCount("0",user.getUserId()));
+                user.setNoReadReplyCount(commentService.getNoReadCommentCount("1",user.getUserId()));
+                commentVo.setUser(user);
+                session.setAttribute("userInfo",user);
+            }
             int count = commentService.getCommentCount(EventId);
-            restfulResponse.setData(commentList);
+            commentVo.setCommentList(commentList);
+            restfulResponse.setData(commentVo);
             restfulResponse.setTotalRecords(count);
         }catch (Exception e){
             restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
@@ -88,6 +110,44 @@ public class CommentController {
                     commentService.createComment(commentRequest);
                 }
             }
+        }catch (Exception e){
+            restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
+            restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
+            logger.catching(e);
+            return restfulResponse;
+        }
+        return restfulResponse;
+    }
+
+
+    /**
+     *
+     * @param flag 0:评论 1：回复
+     * @param session
+     * @return
+     */
+    @ApiOperation(value = "查看未读评论或回复")
+    @Access
+    @GetMapping(value = "")
+    public RestfulResponse readComment(String flag,HttpSession session){
+        RestfulResponse restfulResponse = new RestfulResponse();
+        try{
+            //查看评论
+            User user = (User) session.getAttribute("userInfo");
+            //未读评论列表
+            List<Comment> commentList=commentService.queryNoReadComment(flag,user.getUserId());
+            //未读评论数量
+            int count = commentService.getNoReadCommentCount(flag,user.getUserId());
+            //批量更新已查看的评论
+            commentService.batchUpdate(commentList);
+            user.setNoReadCommentCount(commentService.getNoReadCommentCount("0",user.getUserId()));
+            user.setNoReadReplyCount(commentService.getNoReadCommentCount("1",user.getUserId()));
+            session.setAttribute("userInfo",user);
+            CommentVo commentVo=new CommentVo();
+            commentVo.setUser(user);
+            commentVo.setCommentList(commentList)
+            restfulResponse.setData(commentVo);
+            restfulResponse.setTotalRecords(count);
         }catch (Exception e){
             restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
             restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());

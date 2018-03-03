@@ -2,6 +2,7 @@ package com.ls.mapper;
 
 import com.ls.model.Comment;
 import com.ls.request.CommentQueryRequest;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,4 +28,12 @@ public interface CommentMapper {
     List<Comment> getAllComment();
 
     int getAllCommentCount(Integer eventId);
+
+    void batchUpdate(Integer eventId);
+
+    List<Comment> getNoReadComment(@Param("flag") String flag,@Param("userId") Integer userId);
+
+    int getNoReadCommentCount(@Param("flag") String flag, @Param("userId") Integer userId);
+
+    void batchUpdateList(List<Comment> commentList);
 }

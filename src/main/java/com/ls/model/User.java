@@ -27,6 +27,10 @@ public class User {
 
     private String payNo;
 
+    private Integer noReadCommentCount;
+
+    private Integer noReadReplyCount;
+
     public User(Integer userId, String nickName, String password, String name, Integer age, String gender, String tel, String email, Integer isLeftChild, String headImg, Date createdTime, String payNo) {
         this.userId = userId;
         this.nickName = nickName;
@@ -158,5 +162,21 @@ public class User {
                 ", createdTime=" + createdTime +
                 ", payNo='" + payNo + '\'' +
                 '}';
+    }
+
+    public Integer getNoReadCommentCount() {
+        return noReadCommentCount;
+    }
+
+    public void setNoReadCommentCount(Integer noReadCommentCount) {
+        this.noReadCommentCount = noReadCommentCount;
+    }
+
+    public Integer getNoReadReplyCount() {
+        return noReadReplyCount;
+    }
+
+    public void setNoReadReplyCount(Integer noReadReplyCount) {
+        this.noReadReplyCount = noReadReplyCount;
     }
 }
