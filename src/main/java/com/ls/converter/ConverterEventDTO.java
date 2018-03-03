@@ -11,7 +11,11 @@ import org.springframework.beans.BeanUtils;
  */
 public class ConverterEventDTO extends BaseConverterDTO {
     public static EventQueryRequest converterEventDTO(String filters, Integer pageNo, Integer pageSize, String sort, String dir) {
-         EventQueryRequest eventQueryRequest = JSON.parseObject(filters,EventQueryRequest.class);
+        EventQueryRequest eventQueryRequest = null;
+        if(filters != null){
+            eventQueryRequest = JSON.parseObject(filters,EventQueryRequest.class);
+        }
+
          if(pageNo != null && pageSize!= null){
              eventQueryRequest.setPageNo(getCurrentRecord(pageNo,pageSize));
              eventQueryRequest.setPageSize(pageSize);
