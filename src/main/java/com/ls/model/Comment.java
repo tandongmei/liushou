@@ -29,4 +29,6 @@ public class Comment {
 
     private String returnTime;
 
+    private Integer readFlag;//是否已读
+
 }

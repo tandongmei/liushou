@@ -29,8 +29,8 @@ public class EventDTO {
     private String eventImg;
 
 //    private Integer flag;
-
-//    private Integer hostId;
+    //板块id
+    private Integer hostId;
 
 //    private Date createdTime;
 

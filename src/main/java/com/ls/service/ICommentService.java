@@ -20,4 +20,12 @@ public interface ICommentService {
     int getCommentCount(Integer eventId);
 
     void createComment(CommentRequest commentRequest);
+
+    void batchUpdate(Integer eventId);
+
+    List<Comment> queryNoReadComment(String flag,Integer userId);
+
+    int getNoReadCommentCount(String flag, Integer userId);
+
+    void batchUpdate(List<Comment> commentList);
 }

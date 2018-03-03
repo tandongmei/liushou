@@ -10,6 +10,7 @@ import com.ls.model.User;
 import com.ls.model.enm.ResCodeEnum;
 import com.ls.request.UserQueryRequest;
 import com.ls.request.UserRequest;
+import com.ls.service.ICommentService;
 import com.ls.service.IUserService;
 import com.ls.util.MD5Util;
 import com.ls.util.ValidUtil;
@@ -41,6 +42,9 @@ public class UserController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private ICommentService commentService;
 
     @ApiOperation(value = "用户列表")
     @GetMapping(value = "")
@@ -127,6 +131,8 @@ public class UserController {
                 restfulResponse.setCode(-2);
                 restfulResponse.setMsg("密码错误");
             }
+            user.setNoReadCommentCount(commentService.getNoReadCommentCount("0",user.getUserId()));
+            user.setNoReadReplyCount(commentService.getNoReadCommentCount("1",user.getUserId()));
             restfulResponse.setData(user);
             // 登陆信息保存在session
             request.getSession().setAttribute("userInfo",user);

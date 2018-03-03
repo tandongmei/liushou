@@ -80,6 +80,39 @@ public class CommentServiceImpl implements ICommentService {
         Comment comment = bindComment(commentRequest);
         commentMapper.insert(comment);
     }
+    //批量更新为已读 根据事件
+    @Override
+    public void batchUpdate(Integer eventId) {
+        commentMapper.batchUpdate(eventId);
+    }
+    //批量更新为已读 根据未读列表
+    @Override
+    public void batchUpdate(List<Comment> commentList) {
+        commentMapper.batchUpdateList(commentList);
+    }
+
+    /**
+     * 查询用户下未读的评论
+     * @param flag  0:评论 1：回复
+     * @param userId
+     */
+    @Override
+    public List<Comment> queryNoReadComment(String flag,Integer userId){
+        List<Comment> commentList=commentMapper.getNoReadComment( flag, userId);
+        return commentList;
+    }
+
+    /**
+     * 查询用户下未读的评论数量
+     * @param flag  0:评论 1：回复
+     * @param userId
+     */
+    @Override
+    public int getNoReadCommentCount(String flag, Integer userId) {
+        int  count= commentMapper.getNoReadCommentCount( flag, userId);
+        return count;
+    }
+
 
 
 
