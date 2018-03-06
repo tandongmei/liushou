@@ -41,11 +41,11 @@ public class EventServiceImpl implements IEventService {
     }
 
     @Override
-    public void create(EventRequest eventRequest) {
+    public void create(EventRequest eventRequest,Integer userId) {
         Event event = bindEvent(eventRequest);
-        event.setUserId(1);
+        event.setUserId(userId); // 当前登录人
         event.setFlag(1);
-        event.setHostId(1);
+//        event.setHostId(1);
         event.setCreatedTime(new Date());
         eventMapper.insertSelective(event);
     }

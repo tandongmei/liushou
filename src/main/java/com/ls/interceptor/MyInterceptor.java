@@ -1,5 +1,6 @@
 package com.ls.interceptor;
 
+import com.ls.exception.ServiceException;
 import com.ls.model.User;
 import com.ls.model.enm.ResCodeEnum;
 import org.apache.catalina.Session;
@@ -37,15 +38,17 @@ public class MyInterceptor implements HandlerInterceptor {
         if(session == null){
             // session已过期
             System.out.println("session过期，不放过");
-            response.sendError(ResCodeEnum.SESSION_TIME_OUT.getCode(),ResCodeEnum.SESSION_TIME_OUT.getMsg());
-            return false;
+            //response.sendError(ResCodeEnum.SESSION_TIME_OUT.getCode(),ResCodeEnum.SESSION_TIME_OUT.getMsg());
+            //return false;
+            throw new ServiceException(ResCodeEnum.SESSION_TIME_OUT.getCode(),ResCodeEnum.SESSION_TIME_OUT.getMsg());
         }else{
             User user = (User) session.getAttribute("userInfo");
             if(user == null){
                 // 说明未登录
                 System.out.println("未登录，不放过");
-                response.sendError(ResCodeEnum.USER_NOT_LIGIN.getCode(),ResCodeEnum.USER_NOT_LIGIN.getMsg());
-                return false;
+                //response.sendError(ResCodeEnum.USER_NOT_LIGIN.getCode(),ResCodeEnum.USER_NOT_LIGIN.getMsg());
+                //return false;
+                throw new ServiceException(ResCodeEnum.USER_NOT_LIGIN.getCode(),ResCodeEnum.USER_NOT_LIGIN.getMsg());
             }
         }
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求
@@ -54,12 +57,10 @@ public class MyInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            ModelAndView modelAndView) throws Exception {
-        System.out.println(">>>MyInterceptor1>>>>>>>请求处理之后进行调用，但是在视图被渲染之前（Controller方法调用之后）");
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
-        System.out.println(">>>MyInterceptor1>>>>>>>在整个请求结束之后被调用，也就是在DispatcherServlet 渲染了对应的视图之后执行（主要是用于进行资源清理工作）");
     }
 }

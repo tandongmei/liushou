@@ -18,4 +18,6 @@ public class CommentRequest {
     private String replayContent;
 
     private Integer parentId;
+
+    private Integer beiReplyId;//被回复人
 }

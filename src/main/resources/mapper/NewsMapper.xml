@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ls.mapper.NewsMapper" >
+  <resultMap id="BaseResultMap" type="com.ls.model.News" >
+    <constructor >
+      <idArg column="news_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="host_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="content" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="news_img" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    news_id, user_id, host_id, title, content, news_img, created_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from news
+    where news_id = #{newsId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from news
+    where news_id = #{newsId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ls.model.News" >
+    insert into news (news_id, user_id, host_id, 
+      title, content, news_img, 
+      created_time)
+    values (#{newsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{hostId,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{newsImg,jdbcType=VARCHAR}, 
+      #{createdTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ls.model.News" >
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="newsId != null" >
+        news_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="hostId != null" >
+        host_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="newsImg != null" >
+        news_img,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="newsId != null" >
+        #{newsId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="hostId != null" >
+        #{hostId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="newsImg != null" >
+        #{newsImg,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ls.model.News" >
+    update news
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="hostId != null" >
+        host_id = #{hostId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="newsImg != null" >
+        news_img = #{newsImg,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where news_id = #{newsId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ls.model.News" >
+    update news
+    set user_id = #{userId,jdbcType=INTEGER},
+      host_id = #{hostId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      news_img = #{newsImg,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP}
+    where news_id = #{newsId,jdbcType=INTEGER}
+  </update>
+
+  <select id="findNewsList" parameterType="com.ls.request.NewsQueryRequest" resultMap="BaseResultMap">
+    SELECT * FROM NEWS
+    <if test="hostId!=null">
+      where host_id=#{hostId}
+   </if>
+    <if test="sort !=null and dir != null">
+      ORDER BY e.${sort} ${dir}
+    </if>
+    <if test="pageNo != null and pageSize != null">
+      limit #{pageNo},#{pageSize}
+    </if>
+  </select>
+
+
+  <select id="findNewsListCount" parameterType="com.ls.request.NewsQueryRequest" resultType="java.lang.Integer">
+    select count(*)
+    from news n
+    <if test="hostId!=null">
+      where host_id=#{hostId}
+    </if>
+  </select>
+
+  <select id="findEventList" parameterType="com.ls.request.EventQueryRequest" resultType="java.util.Map">
+    select e.event_id eventId,
+    e.user_id userId,
+    e.title,
+    e.content,
+    e.event_img eventImg,
+    e.flag,
+    e.host_id hostId,
+    e.created_time createdTime
+    from event e
+    LEFT JOIN user u
+    on e.user_id = u.user_id
+    WHERE 1=1
+    <if test="isLeftChild != null">
+      and u.is_left_child = #{isLeftChild}
+    </if>
+
+  </select>
+</mapper>

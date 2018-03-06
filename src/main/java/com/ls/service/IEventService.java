@@ -16,7 +16,7 @@ public interface IEventService {
 
     Event getEvent(Integer eventId);
 
-    void create(EventRequest eventRequest);
+    void create(EventRequest eventRequest,Integer userId);
 
     int getTotalRecords(EventQueryRequest eventQueryRequest);
 }

@@ -17,6 +17,12 @@
     from host
     where host_id = #{hostId,jdbcType=INTEGER}
   </select>
+
+  <select id="selectList" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from host
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from host
     where host_id = #{hostId,jdbcType=INTEGER}

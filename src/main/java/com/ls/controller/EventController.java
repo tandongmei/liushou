@@ -6,6 +6,7 @@ import com.ls.dto.EventDTO;
 import com.ls.exception.ServiceException;
 import com.ls.interceptor.Access;
 import com.ls.model.Event;
+import com.ls.model.User;
 import com.ls.model.enm.ResCodeEnum;
 import com.ls.request.EventQueryRequest;
 import com.ls.request.EventRequest;
@@ -22,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -83,7 +85,7 @@ public class EventController {
     @ApiOperation(value = "新增事件")
     @Access
     @PutMapping(value = "")
-    public RestfulResponse create(@RequestBody @Validated EventDTO eventDTO, BindingResult result){
+    public RestfulResponse create(@RequestBody @Validated EventDTO eventDTO, BindingResult result, HttpServletRequest request){
         RestfulResponse restfulResponse = new RestfulResponse();
         try{
             if(result.hasErrors()){
@@ -93,7 +95,14 @@ public class EventController {
                 return restfulResponse;
             }
             EventRequest eventRequest = ConverterEventDTO.converterEventDTO(eventDTO);
-            eventService.create(eventRequest);
+            // 从后台session获取用户信息，和前台session比较
+            User u = (User) request.getSession().getAttribute("userInfo");
+            if(u == null){
+                restfulResponse.setCode(ResCodeEnum.SESSION_TIME_OUT.getCode());
+                restfulResponse.setMsg(ResCodeEnum.SESSION_TIME_OUT.getMsg());
+                return restfulResponse;
+            }
+            eventService.create(eventRequest,u.getUserId());
         }catch (Exception e){
             restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
             restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());

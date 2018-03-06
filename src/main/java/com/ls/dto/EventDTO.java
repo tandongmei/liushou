@@ -30,7 +30,7 @@ public class EventDTO {
 
 //    private Integer flag;
     //板块id
-    private Integer hostId;
+//    private Integer hostId;
 
 //    private Date createdTime;
 

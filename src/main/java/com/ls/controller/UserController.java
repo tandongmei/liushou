@@ -131,6 +131,7 @@ public class UserController {
                 restfulResponse.setCode(-2);
                 restfulResponse.setMsg("密码错误");
             }
+            //设置未读评论数和回复数
             user.setNoReadCommentCount(commentService.getNoReadCommentCount("0",user.getUserId()));
             user.setNoReadReplyCount(commentService.getNoReadCommentCount("1",user.getUserId()));
             restfulResponse.setData(user);

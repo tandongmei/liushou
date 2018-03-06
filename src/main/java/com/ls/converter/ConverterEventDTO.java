@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.ls.dto.EventDTO;
 import com.ls.request.EventQueryRequest;
 import com.ls.request.EventRequest;
+import com.ls.request.NewsQueryRequest;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -11,8 +13,9 @@ import org.springframework.beans.BeanUtils;
  */
 public class ConverterEventDTO extends BaseConverterDTO {
     public static EventQueryRequest converterEventDTO(String filters, Integer pageNo, Integer pageSize, String sort, String dir) {
-        EventQueryRequest eventQueryRequest = null;
-        if(filters != null){
+
+        EventQueryRequest eventQueryRequest = new EventQueryRequest();
+        if(filters != null && filters.length()>0){
             eventQueryRequest = JSON.parseObject(filters,EventQueryRequest.class);
         }
 
@@ -26,6 +29,21 @@ public class ConverterEventDTO extends BaseConverterDTO {
          eventQueryRequest.setDir(dir);
          return eventQueryRequest;
     }
+
+    public static NewsQueryRequest converterNewsDTO(Integer hostId, Integer pageNo, Integer pageSize, String sort, String dir) {
+        NewsQueryRequest newsQueryRequest = new NewsQueryRequest();
+        newsQueryRequest.setHostId(hostId);
+        if(pageNo != null && pageSize!= null){
+            newsQueryRequest.setPageNo(getCurrentRecord(pageNo,pageSize));
+            newsQueryRequest.setPageSize(pageSize);
+        }
+        // sort在这转换
+        sort = camel2Underline(sort);
+        newsQueryRequest.setSort(sort);
+        newsQueryRequest.setDir(dir);
+        return newsQueryRequest;
+    }
+
 
     public static EventRequest converterEventDTO(EventDTO eventDTO) {
         EventRequest eventRequest = new EventRequest();
