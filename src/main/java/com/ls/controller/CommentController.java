@@ -145,7 +145,7 @@ public class CommentController {
             session.setAttribute("userInfo",user);
             CommentVo commentVo=new CommentVo();
             commentVo.setUser(user);
-            commentVo.setCommentList(commentList)
+            commentVo.setCommentList(commentList);
             restfulResponse.setData(commentVo);
             restfulResponse.setTotalRecords(count);
         }catch (Exception e){
