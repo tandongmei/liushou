@@ -11,11 +11,12 @@
       <arg column="parent_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="is_show" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="read_flag" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="bei_reply_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
     comment_id, event_id, replay_user_id, replay_content, created_time, parent_id, is_show, 
-    read_flag
+    read_flag, bei_reply_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -30,10 +31,12 @@
   <insert id="insert" parameterType="com.ls.model.Comment" >
     insert into comment (comment_id, event_id, replay_user_id, 
       replay_content, created_time, parent_id, 
-      is_show, read_flag)
+      is_show, read_flag, bei_reply_id
+      )
     values (#{commentId,jdbcType=INTEGER}, #{eventId,jdbcType=INTEGER}, #{replayUserId,jdbcType=INTEGER}, 
       #{replayContent,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{parentId,jdbcType=INTEGER}, 
-      #{isShow,jdbcType=INTEGER}, #{readFlag,jdbcType=INTEGER})
+      #{isShow,jdbcType=INTEGER}, #{readFlag,jdbcType=INTEGER}, #{beiReplyId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.ls.model.Comment" >
     insert into comment
@@ -62,6 +65,9 @@
       <if test="readFlag != null" >
         read_flag,
       </if>
+      <if test="beiReplyId != null" >
+        bei_reply_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="commentId != null" >
@@ -87,6 +93,9 @@
       </if>
       <if test="readFlag != null" >
         #{readFlag,jdbcType=INTEGER},
+      </if>
+      <if test="beiReplyId != null" >
+        #{beiReplyId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -114,6 +123,9 @@
       <if test="readFlag != null" >
         read_flag = #{readFlag,jdbcType=INTEGER},
       </if>
+      <if test="beiReplyId != null" >
+        bei_reply_id = #{beiReplyId,jdbcType=INTEGER},
+      </if>
     </set>
     where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
@@ -125,9 +137,11 @@
       created_time = #{createdTime,jdbcType=TIMESTAMP},
       parent_id = #{parentId,jdbcType=INTEGER},
       is_show = #{isShow,jdbcType=INTEGER},
-      read_flag = #{readFlag,jdbcType=INTEGER}
+      read_flag = #{readFlag,jdbcType=INTEGER},
+      bei_reply_id = #{beiReplyId,jdbcType=INTEGER}
     where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
+
   <!-- 自己的sql语句-->
   <select id="findParentCommentsByEventId"  parameterType="com.ls.request.CommentQueryRequest" resultType="com.ls.model.Comment">
     select c.comment_id commentId,
@@ -136,7 +150,7 @@
     c.replay_content replayContent,
     c.created_time createdTime,
     c.parent_id parentId,
-    c.is_show isShow
+    c.is_show isShow,
     c.read_flag readFlag
     from `comment` c
     LEFT JOIN event e
@@ -152,7 +166,7 @@
     c.replay_content replayContent,
     c.created_time created_time,
     c.parent_id parentId,
-    c.is_show isShow
+    c.is_show isShow,
     c.read_flag readFlag
     from `comment` c
     WHERE c.parent_id = #{commentId}
@@ -160,13 +174,13 @@
 
   <select id="getCommentByEventId" parameterType="int" resultType="com.ls.model.Comment">
     select
-     c.comment_id commentId,
+    c.comment_id commentId,
     c.event_id eventId,
     c.replay_user_id replayUserId,
     c.replay_content replayContent,
     c.created_time createdTime,
     c.parent_id parentId,
-    c.is_show isShow
+    c.is_show isShow,
     c.read_flag readFlag
     from comment c
     where c.event_id=#{eventId}
@@ -175,13 +189,13 @@
 
   <select id="getAllComment"  resultType="com.ls.model.Comment">
     select
-     c.comment_id commentId,
+    c.comment_id commentId,
     c.event_id eventId,
     c.replay_user_id replayUserId,
     c.replay_content replayContent,
     c.created_time createdTime,
     c.parent_id parentId,
-    c.is_show isShow
+    c.is_show isShow,
     c.read_flag readFlag
     from comment c
     order BY c.created_time desc
@@ -192,20 +206,33 @@
     where c.event_id = #{eventId}
   </select>
 
-  <update id="batchUpdate" parameterType="int" >
-    update comment c set c.read_flag=1
-    where c.event_id = #{eventId}
-  </update>
+  <!--获取当前用户 当前事件下未读的评论或者回复-->
+  <select id="getMyComment" parameterType="map" resultType="com.ls.model.Comment">
+    select
+    c.comment_id commentId,
+    c.event_id eventId,
+    c.replay_user_id replayUserId,
+    c.replay_content replayContent,
+    c.created_time createdTime,
+    c.parent_id parentId,
+    c.is_show isShow,
+    c.read_flag readFlag,
+    c.bei_reply_id beiReplyId
+    from comment c
+    where  c.read_flag=0 and c.bei_reply_id=#{userId}
+    and c.event_id=#{eventId}
+  </select>
 
-  batchUpdateList
+  <!--批量更新未读的评论或者回复-->
   <update id="batchUpdateList" parameterType="list" >
     update comment c set c.read_flag=1
     where c.comment_id in
-    <foreach collection="batchUpdateList" item="comment" open="(" close=")" separator=",">
-        #{comment.commentId}
+    <foreach collection="list" item="comment" open="(" close=")" separator=",">
+      #{comment.commentId}
     </foreach>
   </update>
 
+  <!--查看未读的评论或者回复-->
   <select id="getNoReadComment" parameterType="map" resultType="com.ls.model.Comment">
     select
     c.comment_id commentId,
@@ -214,11 +241,12 @@
     c.replay_content replayContent,
     c.created_time createdTime,
     c.parent_id parentId,
-    c.is_show isShow
-    c.read_flag readFlag
+    c.is_show isShow,
+    c.read_flag readFlag,
+    c.bei_reply_id beiReplyId
     from comment c
-    where c.user_id=#{userId} 
-    and 
+    where  c.read_flag=0 and c.bei_reply_id=#{userId}
+    and
     <if test="flag==0">
       c.parent_id=0
     </if>
@@ -228,10 +256,11 @@
     order BY c.created_time desc
   </select>
 
+  <!--查看未读的评论或者回复的数量-->
   <select id="getNoReadCommentCount" parameterType="map" resultType="int">
     select count(1)
     from comment c
-    where c.user_id=#{userId}
+    where c.read_flag=0 and  c.bei_reply_id=#{userId}
     and
     <if test="flag==0">
       c.parent_id=0

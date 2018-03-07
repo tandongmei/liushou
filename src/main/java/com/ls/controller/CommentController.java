@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,15 +60,19 @@ public class CommentController {
 
             User user = (User) session.getAttribute("userInfo");
             CommentVo commentVo=new CommentVo();
-            //修改登录用户该事件下的所有未读的评论为已读
-            if(user!=null && user.getUserId()==event.getUserId()
-                    && commentList.size()>0 && commentList.get(0)!=null && 0==commentList.get(0).getReadFlag()){
-                commentService.batchUpdate(eventId);
+            List<Comment> commentList1=new ArrayList<>();
+            if(user!=null){
+                commentList1=commentService.getMyComment(EventId,user.getUserId());
+            }
+            //当前登录人 当前事件下的未读评论或者回复数量>0
+            if(commentList1.size()>0){
+                commentService.batchUpdate(commentList1);
                 user.setNoReadCommentCount(commentService.getNoReadCommentCount("0",user.getUserId()));
                 user.setNoReadReplyCount(commentService.getNoReadCommentCount("1",user.getUserId()));
                 commentVo.setUser(user);
                 session.setAttribute("userInfo",user);
             }
+
             int count = commentService.getCommentCount(EventId);
             commentVo.setCommentList(commentList);
             restfulResponse.setData(commentVo);
@@ -106,6 +111,13 @@ public class CommentController {
             }
             if(u != null && user != null){
                 if(u.getUserId().equals(user.getUserId())){
+                    if(commentDTO.getParentId()==0){
+                        //设置被回复人为发表事件的人
+                        commentDTO.setBeiReplyId(eventService.getEvent(commentDTO.getEventId()).getUserId());
+                    }else{
+                        //设置被回复人为父回复的回复人
+                        commentDTO.setBeiReplyId(commentService.getComment(commentDTO.getParentId()).getReplayUserId());
+                    }
                     CommentRequest commentRequest = ConverterCommentDTO.converterCommentDTO(commentDTO,user);
                     commentService.createComment(commentRequest);
                 }
@@ -132,14 +144,14 @@ public class CommentController {
     public RestfulResponse readComment(String flag,HttpSession session){
         RestfulResponse restfulResponse = new RestfulResponse();
         try{
-            //查看评论
             User user = (User) session.getAttribute("userInfo");
-            //未读评论列表
+            //未读评论或回复列表
             List<Comment> commentList=commentService.queryNoReadComment(flag,user.getUserId());
-            //未读评论数量
+            //未读评论或回复数量
             int count = commentService.getNoReadCommentCount(flag,user.getUserId());
             //批量更新已查看的评论
             commentService.batchUpdate(commentList);
+            //设置未读评论数和回复数
             user.setNoReadCommentCount(commentService.getNoReadCommentCount("0",user.getUserId()));
             user.setNoReadReplyCount(commentService.getNoReadCommentCount("1",user.getUserId()));
             session.setAttribute("userInfo",user);

@@ -29,11 +29,17 @@ public interface CommentMapper {
 
     int getAllCommentCount(Integer eventId);
 
-    void batchUpdate(Integer eventId);
+    //void batchUpdate(Integer eventId);
 
     List<Comment> getNoReadComment(@Param("flag") String flag,@Param("userId") Integer userId);
 
     int getNoReadCommentCount(@Param("flag") String flag, @Param("userId") Integer userId);
 
-    void batchUpdateList(List<Comment> commentList);
+    void batchUpdateList(List<Comment> list);
+
+    //int batchUserUpdate(@Param("userId") Integer userId,@Param("commentList") List<Comment> commentList);
+
+    //void readComment(@Param("userId") Integer userId, @Param("commentId") Integer commentId);
+
+    List<Comment> getMyComment(@Param("eventId") Integer eventId,@Param("userId") Integer userId);
 }

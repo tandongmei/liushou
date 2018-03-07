@@ -33,6 +33,9 @@ public class CommentDTO {
     @NotNull(message = "父亲id为空")
     private Integer parentId;
 
+    private Integer beiReplyId;//被回复人的id
+
+
 //    private Date createdTime;
 
 //    private Integer parentId;

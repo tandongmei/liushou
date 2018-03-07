@@ -76,19 +76,28 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
+    public Comment getComment(Integer commentId) {
+        Comment comment=commentMapper.selectByPrimaryKey(commentId);
+        return comment;
+    }
+
+    @Override
     public void createComment(CommentRequest commentRequest) {
         Comment comment = bindComment(commentRequest);
         commentMapper.insert(comment);
     }
-    //批量更新为已读 根据事件
-    @Override
-    public void batchUpdate(Integer eventId) {
-        commentMapper.batchUpdate(eventId);
-    }
+
     //批量更新为已读 根据未读列表
     @Override
     public void batchUpdate(List<Comment> commentList) {
         commentMapper.batchUpdateList(commentList);
+    }
+
+
+
+    @Override
+    public List<Comment> getMyComment(Integer eventId, Integer userId) {
+        return commentMapper.getMyComment(eventId,userId);
     }
 
     /**
@@ -174,6 +183,7 @@ public class CommentServiceImpl implements ICommentService {
         BeanUtils.copyProperties(commentRequest,comment);
         comment.setIsShow(0);
         comment.setCreatedTime(new Date());
+        comment.setReadFlag(0);
         return comment;
     }
 

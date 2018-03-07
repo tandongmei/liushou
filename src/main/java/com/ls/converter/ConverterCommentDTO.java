@@ -12,6 +12,7 @@ public class ConverterCommentDTO {
         if(commentDTO == null){
             return null;
         }
+        commentRequest.setBeiReplyId(commentDTO.getBeiReplyId());
         commentRequest.setEventId(commentDTO.getEventId());
         commentRequest.setParentId(commentDTO.getParentId());
         commentRequest.setReplayContent(commentDTO.getReplayContent());

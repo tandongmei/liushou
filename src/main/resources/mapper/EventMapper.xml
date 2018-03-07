@@ -136,7 +136,8 @@
             e.event_img eventImg,
             e.flag,
             e.host_id hostId,
-            e.created_time createdTime
+            e.created_time createdTime,
+            u.nick_name nickName
     from event e
     LEFT JOIN user u
     on e.user_id = u.user_id
