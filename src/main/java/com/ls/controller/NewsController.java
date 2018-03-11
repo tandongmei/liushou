@@ -11,6 +11,8 @@ import com.ls.vo.NewsVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author:yuhang
+ * @author:tandongmei
  * @Date:2018/3/4
  * 公益新闻模块
  */
@@ -30,8 +32,8 @@ import java.util.Map;
 @RequestMapping(value = "/api/news")
 public class NewsController {
 
-    @Autowired
-    private HostMapper hostMapper;
+    private static Logger logger = LogManager.getLogger(NewsController.class);
+
 
     @Autowired
     private INewsService newsService;
@@ -39,25 +41,28 @@ public class NewsController {
     @ApiOperation(value = "用户事件列表" )
     @GetMapping(value = "")
     public RestfulResponse<List<Map<Object,String>>> findNews(
-            @ApiParam(name = "hostId",value = "查询条件") @RequestParam(value = "hostId",defaultValue = "1") Integer hostId,
+            @ApiParam(name = "hostId",value = "查询条件") @RequestParam(value = "hostId") Integer hostId,
             @ApiParam(name = "pageNo",value = "当前页") @RequestParam(value = "pageNo",required = false) Integer pageNo,
             @ApiParam(name = "pageSize",value = "每页条数") @RequestParam(value = "pageSize",required = false) Integer pageSize,
             @ApiParam(name = "sort",value = "排序字段") @RequestParam(value = "sort",defaultValue = "createdTime") String sort,
             @ApiParam(name = "dir",value = "升序或降序") @RequestParam(value = "dir",defaultValue = "desc") String dir){
         RestfulResponse restfulResponse = new RestfulResponse();
         try{
-            NewsVo newsVo=new NewsVo();
-            newsVo.setHostList(hostMapper.selectList());
+//            NewsVo newsVo=new NewsVo();
+//            newsVo.setHostList(hostMapper.selectList());
             NewsQueryRequest newsQueryRequest = ConverterEventDTO.converterNewsDTO(hostId,pageNo,pageSize,sort,dir);
             List<Map<Object,String>> newsList = newsService.findNewsList(newsQueryRequest);
             int totalRecords = newsService.getTotalRecords(newsQueryRequest);//总记录数？？
-            newsVo.setNewsList(newsList);
-            newsVo.setTotalRecords(totalRecords);
-            restfulResponse.setData(newsVo);
+//            newsVo.setNewsList(newsList);
+//            newsVo.setTotalRecords(totalRecords);
+//            restfulResponse.setData(newsVo);
+            restfulResponse.setData(newsList);
             restfulResponse.setTotalRecords(totalRecords);
         }catch (Exception e){
+            logger.catching(e);
             restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
             restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
+
         }
         return restfulResponse;
     }

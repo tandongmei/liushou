@@ -21,6 +21,7 @@ public class NewsServiceImpl implements INewsService {
 
     @Override
     public List<Map<Object, String>> findNewsList(NewsQueryRequest newsQueryRequest) {
+
         return newsMapper.findNewsList(newsQueryRequest);
     }
 

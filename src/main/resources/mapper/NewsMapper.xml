@@ -117,13 +117,18 @@
     where news_id = #{newsId,jdbcType=INTEGER}
   </update>
 
-  <select id="findNewsList" parameterType="com.ls.request.NewsQueryRequest" resultMap="BaseResultMap">
-    SELECT * FROM NEWS
+  <select id="findNewsList" parameterType="com.ls.request.NewsQueryRequest" resultType="java.util.Map">
+    SELECT n.news_id newsId,
+           n.title,
+           n.content,
+           n.news_img newsImg,
+           n.created_time createdTime
+    FROM NEWS n
     <if test="hostId!=null">
       where host_id=#{hostId}
    </if>
     <if test="sort !=null and dir != null">
-      ORDER BY e.${sort} ${dir}
+      ORDER BY n.${sort} ${dir}
     </if>
     <if test="pageNo != null and pageSize != null">
       limit #{pageNo},#{pageSize}
@@ -139,22 +144,5 @@
     </if>
   </select>
 
-  <select id="findEventList" parameterType="com.ls.request.EventQueryRequest" resultType="java.util.Map">
-    select e.event_id eventId,
-    e.user_id userId,
-    e.title,
-    e.content,
-    e.event_img eventImg,
-    e.flag,
-    e.host_id hostId,
-    e.created_time createdTime
-    from event e
-    LEFT JOIN user u
-    on e.user_id = u.user_id
-    WHERE 1=1
-    <if test="isLeftChild != null">
-      and u.is_left_child = #{isLeftChild}
-    </if>
 
-  </select>
 </mapper>
