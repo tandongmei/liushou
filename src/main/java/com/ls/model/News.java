@@ -7,6 +7,10 @@ public class News {
 
     private Integer userId;
 
+    private String userName;
+
+    private String headImg;
+
     private Integer hostId;
 
     private String title;
@@ -83,7 +87,24 @@ public class News {
         return createdTime;
     }
 
-    public void setCreatedTime(Date createdTime) {
+    public void setCreatedTime(Date createdTime)
+    {
         this.createdTime = createdTime;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
     }
 }

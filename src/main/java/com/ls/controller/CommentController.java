@@ -57,7 +57,6 @@ public class CommentController {
             Event event = eventService.getEvent(EventId);
             //得到子评论
             List<Comment> commentList = commentService.getAllCommentList(EventId);
-
             User user = (User) session.getAttribute("userInfo");
             CommentVo commentVo=new CommentVo();
             List<Comment> commentList1=new ArrayList<>();
@@ -98,7 +97,6 @@ public class CommentController {
                 restfulResponse.setMsg(list.get(0).getDefaultMessage());
                 return restfulResponse;
             }
-            String nickName = commentDTO.getReplayUserNickName();
             UserQueryRequest userQueryRequest = new UserQueryRequest();
             userQueryRequest.setNickName(commentDTO.getReplayUserNickName());
             User user = userMapper.getUser(userQueryRequest);
@@ -115,7 +113,7 @@ public class CommentController {
                         //设置被回复人为发表事件的人
                         commentDTO.setBeiReplyId(eventService.getEvent(commentDTO.getEventId()).getUserId());
                     }else{
-                        //设置被回复人为父回复的回复人
+                        //设置被回复人父回复的回复人
                         commentDTO.setBeiReplyId(commentService.getComment(commentDTO.getParentId()).getReplayUserId());
                     }
                     CommentRequest commentRequest = ConverterCommentDTO.converterCommentDTO(commentDTO,user);

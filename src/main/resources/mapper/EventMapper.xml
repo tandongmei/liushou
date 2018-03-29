@@ -176,4 +176,15 @@
     from event e
     where e.event_id = #{eventId}
   </select>
+  <select id="getHostList" resultType="java.util.Map">
+    SELECT  e.event_id eventId,
+            e.content,
+            e.created_time createdTime,
+            e.event_img eventImg,
+            e.title,
+            e.user_id userId,
+			a.num from
+(select c.event_id eventId,count(*) num from `comment` c GROUP BY c.event_id ORDER BY num desc limit 0,4)a
+INNER JOIN `event` e on a.eventId=e.event_id
+  </select>
 </mapper>

@@ -24,4 +24,6 @@ public interface EventMapper {
     int findEventListCount(EventQueryRequest eventQueryRequest);
 
     Event getEvent(Integer eventId);
+
+    List<Map<Object,String>> getHostList();
 }

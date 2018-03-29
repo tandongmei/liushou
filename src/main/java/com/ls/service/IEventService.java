@@ -19,4 +19,6 @@ public interface IEventService {
     void create(EventRequest eventRequest,Integer userId);
 
     int getTotalRecords(EventQueryRequest eventQueryRequest);
+
+    List<Map<Object,String>> getHostList();
 }

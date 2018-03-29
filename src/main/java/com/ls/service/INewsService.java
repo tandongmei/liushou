@@ -1,5 +1,6 @@
 package com.ls.service;
 
+import com.ls.model.News;
 import com.ls.request.NewsQueryRequest;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface INewsService {
     List<Map<Object,String>> findNewsList(NewsQueryRequest newsQueryRequest);
 
     int getTotalRecords(NewsQueryRequest newsQueryRequest);
+
+    News getNews(Integer newsId);
 }

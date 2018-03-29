@@ -3,21 +3,20 @@ package com.ls.controller;
 import com.ls.common.RestfulResponse;
 import com.ls.converter.ConverterEventDTO;
 import com.ls.mapper.HostMapper;
+import com.ls.model.News;
 import com.ls.model.enm.ResCodeEnum;
 import com.ls.request.EventQueryRequest;
 import com.ls.request.NewsQueryRequest;
 import com.ls.service.INewsService;
 import com.ls.vo.NewsVo;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -41,7 +40,7 @@ public class NewsController {
     @ApiOperation(value = "用户事件列表" )
     @GetMapping(value = "")
     public RestfulResponse<List<Map<Object,String>>> findNews(
-            @ApiParam(name = "hostId",value = "查询条件") @RequestParam(value = "hostId") Integer hostId,
+            @ApiParam(name = "hostId",value = "查询条件") @RequestParam(value = "hostId",required = false) Integer hostId,
             @ApiParam(name = "pageNo",value = "当前页") @RequestParam(value = "pageNo",required = false) Integer pageNo,
             @ApiParam(name = "pageSize",value = "每页条数") @RequestParam(value = "pageSize",required = false) Integer pageSize,
             @ApiParam(name = "sort",value = "排序字段") @RequestParam(value = "sort",defaultValue = "createdTime") String sort,
@@ -66,5 +65,22 @@ public class NewsController {
         }
         return restfulResponse;
     }
+
+    @ApiOperation(value = "查询新闻")
+    @GetMapping(value = "/{newsId}")
+    public RestfulResponse<News> getNews(@PathVariable Integer newsId){
+        RestfulResponse<News> restfulResponse = new RestfulResponse<>();
+        try{
+            News news = newsService.getNews(newsId);
+            restfulResponse.setData(news);
+        }catch (Exception e){
+            logger.catching(e);
+            restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
+            restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
+        }
+        return restfulResponse;
+    }
+
+
 
 }

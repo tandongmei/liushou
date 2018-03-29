@@ -55,6 +55,11 @@ public class EventServiceImpl implements IEventService {
         return eventMapper.findEventListCount(eventQueryRequest);
     }
 
+    @Override
+    public List<Map<Object, String>> getHostList() {
+        return eventMapper.getHostList();
+    }
+
     private Event bindEvent(EventRequest eventRequest){
         Event event = new Event();
         BeanUtils.copyProperties(eventRequest,event);

@@ -43,7 +43,7 @@ public class EventController {
     @ApiOperation(value = "用户事件列表" )
     @GetMapping(value = "")
     public RestfulResponse<List<Map<Object,String>>> findEvent(
-            @ApiParam(name = "filters",value = "查询条件") @RequestParam(value = "filters") String filters,
+            @ApiParam(name = "filters",value = "查询条件") @RequestParam(value = "filters",required = false) String filters,
             @ApiParam(name = "pageNo",value = "当前页") @RequestParam(value = "pageNo",required = false) Integer pageNo,
             @ApiParam(name = "pageSize",value = "每页条数") @RequestParam(value = "pageSize",required = false) Integer pageSize,
             @ApiParam(name = "sort",value = "排序字段") @RequestParam(value = "sort",defaultValue = "createdTime") String sort,
@@ -108,6 +108,15 @@ public class EventController {
             restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
             logger.catching(e);
         }
+        return restfulResponse;
+    }
+
+    @ApiOperation(value = "获取热评")
+    @GetMapping(value = "/host")
+    public RestfulResponse<List<Map<Object,String>>>  getHostEvent(){
+        RestfulResponse<List<Map<Object,String>>>  restfulResponse = new RestfulResponse<>();
+        List<Map<Object,String>> hostList = eventService.getHostList();
+        restfulResponse.setData(hostList);
         return restfulResponse;
     }
 
