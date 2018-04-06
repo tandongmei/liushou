@@ -4,10 +4,10 @@ import com.ls.exception.ServiceException;
 import com.ls.mapper.UserMapper;
 import com.ls.model.User;
 import com.ls.model.enm.ResCodeEnum;
+import com.ls.model.enm.SysCodeEnum;
 import com.ls.request.UserQueryRequest;
 import com.ls.request.UserRequest;
 import com.ls.service.IUserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -44,9 +44,8 @@ public class UserServiceImpl implements IUserService{
         user = new User();
         bindUser(userRequest,user);
         user.setCreatedTime(new Date());
-        user.setGender("1");
-        user.setHeadImg("http://p3ga0tg9o.bkt.clouddn.com/moren.jpg.370a334669494deb8eca9ffd00e716a4"); // 设置默认头像
-        user.setIsLeftChild(1);
+        user.setGender(SysCodeEnum.USER_GENDER_MAN.getMsg()); // 设置性别默认男
+        user.setHeadImg(SysCodeEnum.USER_HEAD.getMsg()); // 设置默认头像
         userMapper.insertSelective(user);
         return user;
     }

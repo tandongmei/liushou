@@ -1,9 +1,9 @@
 package com.ls.service.impl;
 
+import com.ls.mapper.UserMapper;
 import com.ls.request.CommentRequest;
 import com.ls.mapper.CommentMapper;
 import com.ls.mapper.EventMapper;
-import com.ls.mapper.UserMapper;
 import com.ls.model.Comment;
 import com.ls.model.Event;
 import com.ls.service.ICommentService;

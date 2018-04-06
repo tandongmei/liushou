@@ -1,13 +1,9 @@
 package com.ls.dto;
 
-import com.ls.model.Comment;
-import com.ls.model.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.List;
 
 /**
  * Created by tan.dongmei on 2018/2/6

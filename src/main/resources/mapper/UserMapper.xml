@@ -15,11 +15,12 @@
       <arg column="head_img" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="pay_no" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pay_url" jdbcType="VARCHAR" javaType="java.lang.String" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
     user_id, nick_name, password, name, age, gender, tel, email, is_left_child, head_img, 
-    created_time, pay_no
+    created_time, pay_no, pay_url
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -35,13 +36,13 @@
     insert into user (user_id, nick_name, password, 
       name, age, gender, 
       tel, email, is_left_child, 
-      head_img, created_time, pay_no
-      )
+      head_img, created_time, pay_no, 
+      pay_url)
     values (#{userId,jdbcType=INTEGER}, #{nickName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{gender,jdbcType=VARCHAR}, 
       #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{isLeftChild,jdbcType=INTEGER}, 
-      #{headImg,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{payNo,jdbcType=VARCHAR}
-      )
+      #{headImg,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{payNo,jdbcType=VARCHAR}, 
+      #{payUrl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ls.model.User" >
     insert into user
@@ -82,6 +83,9 @@
       <if test="payNo != null" >
         pay_no,
       </if>
+      <if test="payUrl != null" >
+        pay_url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -119,6 +123,9 @@
       </if>
       <if test="payNo != null" >
         #{payNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payUrl != null" >
+        #{payUrl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -158,6 +165,9 @@
       <if test="payNo != null" >
         pay_no = #{payNo,jdbcType=VARCHAR},
       </if>
+      <if test="payUrl != null" >
+        pay_url = #{payUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
@@ -173,23 +183,23 @@
       is_left_child = #{isLeftChild,jdbcType=INTEGER},
       head_img = #{headImg,jdbcType=VARCHAR},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
-      pay_no = #{payNo,jdbcType=VARCHAR}
+      pay_no = #{payNo,jdbcType=VARCHAR},
+      pay_url = #{payUrl,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-
   <select id="findUserList" parameterType="com.ls.request.UserQueryRequest" resultType="java.util.Map">
     select u.user_id userId,
-            u.nick_name nickName,
-            u.password,
-            u.name,
-            u.age,
-            u.gender,
-            u.tel,
-            u.email,
-            u.is_left_child isLeftChild,
-            u.head_img headImg,
-            u.created_time createdTime,
-            u.pay_no payNo
+    u.nick_name nickName,
+    u.password,
+    u.name,
+    u.age,
+    u.gender,
+    u.tel,
+    u.email,
+    u.is_left_child isLeftChild,
+    u.head_img headImg,
+    u.created_time createdTime,
+    u.pay_no payNo
     from user u
     where 1 = 1
     <if test="nickName !=null and nickName !=''">
@@ -214,16 +224,16 @@
 
   <select id="getUser" parameterType="com.ls.request.UserQueryRequest" resultType="com.ls.model.User">
     select u.user_id userId,
-        u.nick_name nickName,
-        u.password,
-        u.name,
-        u.age,
-        u.gender,
-        u.tel,
-        u.email,
-        u.is_left_child isLeftChild,
-        u.head_img headImg,
-        u.pay_no payNo
+    u.nick_name nickName,
+    u.password,
+    u.name,
+    u.age,
+    u.gender,
+    u.tel,
+    u.email,
+    u.is_left_child isLeftChild,
+    u.head_img headImg,
+    u.pay_no payNo
     from user u
     where 1 = 1
     <if test="nickName !=null and nickName !=''">

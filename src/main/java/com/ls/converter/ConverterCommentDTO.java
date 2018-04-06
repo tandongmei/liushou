@@ -1,8 +1,10 @@
 package com.ls.converter;
 
+import com.ls.model.User;
 import com.ls.request.CommentRequest;
 import com.ls.dto.CommentDTO;
-import com.ls.model.User; /**
+
+/**
  * Created by tan.dongmei on 2018/2/9
  */
 public class ConverterCommentDTO {

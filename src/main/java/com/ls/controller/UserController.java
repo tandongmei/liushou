@@ -68,7 +68,7 @@ public class UserController {
     }
     @ApiOperation(value = "用户注册")
     @PostMapping(value = "")
-    public RestfulResponse<User> createAdministrator(@RequestBody @Valid UserDTO userDTO, BindingResult result,HttpServletRequest request) {
+    public RestfulResponse<User> createAdministrator(@RequestBody @Valid UserDTO userDTO, BindingResult result, HttpServletRequest request) {
         RestfulResponse restfulResponse = new RestfulResponse();
         try {
             if (result.hasErrors()) {

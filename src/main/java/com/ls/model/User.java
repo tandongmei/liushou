@@ -27,11 +27,13 @@ public class User {
 
     private String payNo;
 
+    private String payUrl;
+
     private Integer noReadCommentCount;
 
     private Integer noReadReplyCount;
 
-    public User(Integer userId, String nickName, String password, String name, Integer age, String gender, String tel, String email, Integer isLeftChild, String headImg, Date createdTime, String payNo) {
+    public User(Integer userId, String nickName, String password, String name, Integer age, String gender, String tel, String email, Integer isLeftChild, String headImg, Date createdTime, String payNo, String payUrl) {
         this.userId = userId;
         this.nickName = nickName;
         this.password = password;
@@ -44,6 +46,7 @@ public class User {
         this.headImg = headImg;
         this.createdTime = createdTime;
         this.payNo = payNo;
+        this.payUrl = payUrl;
     }
 
     public User() {
@@ -146,22 +149,12 @@ public class User {
         this.payNo = payNo == null ? null : payNo.trim();
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", nickName='" + nickName + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", gender='" + gender + '\'' +
-                ", tel='" + tel + '\'' +
-                ", email='" + email + '\'' +
-                ", isLeftChild=" + isLeftChild +
-                ", headImg='" + headImg + '\'' +
-                ", createdTime=" + createdTime +
-                ", payNo='" + payNo + '\'' +
-                '}';
+    public String getPayUrl() {
+        return payUrl;
+    }
+
+    public void setPayUrl(String payUrl) {
+        this.payUrl = payUrl == null ? null : payUrl.trim();
     }
 
     public Integer getNoReadCommentCount() {

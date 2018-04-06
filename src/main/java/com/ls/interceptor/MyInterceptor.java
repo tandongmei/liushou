@@ -3,7 +3,6 @@ package com.ls.interceptor;
 import com.ls.exception.ServiceException;
 import com.ls.model.User;
 import com.ls.model.enm.ResCodeEnum;
-import org.apache.catalina.Session;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;

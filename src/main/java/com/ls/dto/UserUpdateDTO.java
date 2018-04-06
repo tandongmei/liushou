@@ -40,6 +40,9 @@ public class UserUpdateDTO {
     @ApiModelProperty(value = "头像")
     private String headImg;
 
+    @ApiModelProperty(value = "支付二维码")
+    private String payUrl;
+
     @ApiModelProperty(value = "支付宝账号")
     private String payNo;
 }

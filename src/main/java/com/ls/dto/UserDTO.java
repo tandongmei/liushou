@@ -45,9 +45,9 @@ public class UserDTO {
 //    @NotNull(message = "邮箱为空")
 //    private String email;
 //
-//    @ApiModelProperty(value = "是否是留守儿童", required = true)
-//    @NotNull(message = "是否是留守儿童必填")
-//    private Integer isLeftChild;
+    @ApiModelProperty(value = "是否是留守儿童", required = true)
+    @NotNull(message = "是否是留守儿童必填")
+    private Integer isLeftChild;
 //
 //    @ApiModelProperty(value = "头像", required = true)
 //    private String headImg;
