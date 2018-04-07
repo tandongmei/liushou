@@ -102,6 +102,9 @@ public class UserServiceImpl implements IUserService{
         if(!StringUtils.isEmpty(userRequest.getPayNo())){
             user.setPayNo(userRequest.getPayNo());
         }
+        if(!StringUtils.isEmpty(userRequest.getPayUrl())){
+            user.setPayUrl(userRequest.getPayUrl());
+        }
         if(!StringUtils.isEmpty(userRequest.getIsLeftChild())){
             user.setIsLeftChild(userRequest.getIsLeftChild());
         }

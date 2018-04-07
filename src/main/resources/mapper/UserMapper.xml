@@ -198,6 +198,7 @@
     u.email,
     u.is_left_child isLeftChild,
     u.head_img headImg,
+    u.pay_url payUrl,
     u.created_time createdTime,
     u.pay_no payNo
     from user u
@@ -233,11 +234,15 @@
     u.email,
     u.is_left_child isLeftChild,
     u.head_img headImg,
-    u.pay_no payNo
+    u.pay_no payNo,
+    u.pay_url payUrl
     from user u
     where 1 = 1
     <if test="nickName !=null and nickName !=''">
       and u.nick_name = #{nickName}
+    </if>
+    <if test="userId !=null and userId !=''">
+      and u.user_id = #{userId}
     </if>
 
   </select>

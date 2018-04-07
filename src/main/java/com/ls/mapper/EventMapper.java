@@ -19,7 +19,7 @@ public interface EventMapper {
 
     int updateByPrimaryKey(Event record);
 
-    List<Map<Object,String>> findEventList(EventQueryRequest eventQueryRequest);
+    List<Map<String,Object>> findEventList(EventQueryRequest eventQueryRequest);
 
     int findEventListCount(EventQueryRequest eventQueryRequest);
 

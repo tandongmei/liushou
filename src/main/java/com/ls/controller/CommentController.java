@@ -102,11 +102,6 @@ public class CommentController {
             User user = userMapper.getUser(userQueryRequest);
             // 从后台session获取用户信息，和前台session比较
             User u = (User) request.getSession().getAttribute("userInfo");
-            if(u == null){
-                restfulResponse.setCode(ResCodeEnum.SESSION_TIME_OUT.getCode());
-                restfulResponse.setMsg(ResCodeEnum.SESSION_TIME_OUT.getMsg());
-                return restfulResponse;
-            }
             if(u != null && user != null){
                 if(u.getUserId().equals(user.getUserId())){
                     if(commentDTO.getParentId()==0){

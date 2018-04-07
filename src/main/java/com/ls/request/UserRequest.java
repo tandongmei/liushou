@@ -33,4 +33,6 @@ public class UserRequest {
     private Date createdTime;
 
     private String payNo;
+
+    private String payUrl;
 }

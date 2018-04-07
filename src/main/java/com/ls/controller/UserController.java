@@ -204,4 +204,25 @@ public class UserController {
         return restfulResponse;
     }
 
+    @ApiOperation(value = "查询用户详情")
+    @GetMapping(value = "/{userId}")
+    public RestfulResponse<User> getEvent(@PathVariable Integer userId){
+        RestfulResponse restfulResponse = new RestfulResponse();
+        try{
+            UserQueryRequest userQueryRequest = new UserQueryRequest();
+            userQueryRequest.setUserId(userId);
+            User user = userService.getUser(userQueryRequest);
+            restfulResponse.setData(user);
+        }catch (ServiceException se){
+            restfulResponse.setCode(ResCodeEnum.USER_EMPTY.getCode());
+            restfulResponse.setMsg(ResCodeEnum.USER_EMPTY.getMsg());
+            logger.catching(se);
+        }catch (Exception e){
+            restfulResponse.setCode(ResCodeEnum.SERVER_ERROR.getCode());
+            restfulResponse.setMsg(ResCodeEnum.SERVER_ERROR.getMsg());
+            logger.catching(e);
+        }
+        return restfulResponse;
+    }
+
 }

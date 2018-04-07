@@ -137,13 +137,22 @@
             e.flag,
             e.host_id hostId,
             e.created_time createdTime,
-            u.nick_name nickName
-    from event e
-    LEFT JOIN user u
-    on e.user_id = u.user_id
+            u.nick_name nickName,
+            u.user_id userId,
+            u.pay_no payNo,
+            u.pay_url payUrl,
+            u.tel,
+            u.email,
+            u.age
+    from event e,user u
     WHERE 1=1
-    <if test="isLeftChild != null">
-      and u.is_left_child = #{isLeftChild}
+    and e.user_id = u.user_id
+    and u.is_left_child = 1
+    <if test="nickName != null">
+      and u.nick_name like '%${nickName}%'
+    </if>
+    <if test="title != null">
+      and e.title like '%${title}%'
     </if>
     <if test="sort !=null and dir != null">
       ORDER BY e.${sort} ${dir}
@@ -155,12 +164,15 @@
 
   <select id="findEventListCount" parameterType="com.ls.request.EventQueryRequest" resultType="java.lang.Integer">
     select count(*)
-    from event e
-    LEFT JOIN user u
-    on u.user_id = e.user_id
+    from event e,user u
     where 1 = 1
-    <if test="isLeftChild != null">
-      and u.is_left_child = #{isLeftChild}
+      and u.user_id = e.user_id
+      and u.is_left_child = 1
+    <if test="nickName != null">
+      and u.nick_name like '%${nickName}%'
+    </if>
+    <if test="title != null">
+      and e.title like '%${title}%'
     </if>
   </select>
 

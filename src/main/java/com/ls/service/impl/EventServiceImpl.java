@@ -26,8 +26,9 @@ public class EventServiceImpl implements IEventService {
     private EventMapper eventMapper;
 
     @Override
-    public List<Map<Object, String>> findEventList(EventQueryRequest eventQueryRequest) {
-        return eventMapper.findEventList(eventQueryRequest);
+    public List<Map<String,Object>> findEventList(EventQueryRequest eventQueryRequest) {
+        List<Map<String,Object>> list = eventMapper.findEventList(eventQueryRequest);
+        return list;
     }
 
     @Override

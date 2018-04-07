@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public interface IEventService {
 
-    List<Map<Object,String>> findEventList(EventQueryRequest eventQueryRequest);
+    List<Map<String,Object>> findEventList(EventQueryRequest eventQueryRequest);
 
     Event getEvent(Integer eventId);
 

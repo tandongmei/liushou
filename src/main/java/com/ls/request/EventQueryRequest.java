@@ -11,4 +11,8 @@ public class EventQueryRequest extends BaseQueryRequest {
     private Integer eventId;
 
     private Integer isLeftChild;
+
+    private String nickName;
+
+    private String title;
 }

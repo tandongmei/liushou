@@ -41,7 +41,7 @@ public class EventController {
 
     @ApiOperation(value = "用户事件列表" )
     @GetMapping(value = "")
-    public RestfulResponse<List<Map<Object,String>>> findEvent(
+    public RestfulResponse<List<Map<String,Object>>> findEvent(
             @ApiParam(name = "filters",value = "查询条件") @RequestParam(value = "filters",required = false) String filters,
             @ApiParam(name = "pageNo",value = "当前页") @RequestParam(value = "pageNo",required = false) Integer pageNo,
             @ApiParam(name = "pageSize",value = "每页条数") @RequestParam(value = "pageSize",required = false) Integer pageSize,
@@ -50,7 +50,7 @@ public class EventController {
         RestfulResponse restfulResponse = new RestfulResponse();
         try{
             EventQueryRequest eventQueryRequest = ConverterEventDTO.converterEventDTO(filters,pageNo,pageSize,sort,dir);
-            List<Map<Object,String>> eventList = eventService.findEventList(eventQueryRequest);
+            List<Map<String,Object>> eventList = eventService.findEventList(eventQueryRequest);
             int totalRecords = eventService.getTotalRecords(eventQueryRequest);
             restfulResponse.setData(eventList);
             restfulResponse.setTotalRecords(totalRecords);
